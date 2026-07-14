@@ -135,7 +135,7 @@
   <p>Hoa Ngữ Nhất Tâm · Chương trình Tiếng Trung Thương Mại</p>
   <p style="font-size:.85em; opacity:.85;">丝路行商务中文 初级教程①② · Phạm vi: Bài 1 – Bài 20</p>
   <div class="badges">
-    <div class="badge">⏱ 25 phút</div>
+    <div class="badge">⏱ 40 phút</div>
     <div class="badge">📝 30 câu tính điểm (100đ) + 1 câu tự luận</div>
     <div class="badge">🔒 Làm 1 lần duy nhất</div>
   </div>
@@ -149,7 +149,7 @@
       <b>Mục đích:</b> Bài test giúp giáo viên xác định trình độ hiện tại của bạn để xếp lớp phù hợp (Sơ cấp 2 hoặc điều chỉnh nếu cần).
       <ul>
         <li>Đề gồm <b>4 phần theo thứ tự</b>: Phần 1 Nghe, Phần 2 Đọc hiểu, Phần 3 Ngữ pháp, Phần 4 Viết — tổng <b>30 câu tính điểm (100 điểm)</b> + <b>1 câu tự luận</b> do giáo viên chấm riêng.</li>
-        <li>Thời gian làm bài: <b>25 phút</b> (tính từ lúc bấm "Bắt đầu làm bài"). Hết giờ hệ thống sẽ tự động nộp bài.</li>
+        <li>Thời gian làm bài: <b>40 phút</b> (tính từ lúc bấm "Bắt đầu làm bài"). Hết giờ hệ thống sẽ tự động nộp bài.</li>
         <li>Bài test <b>chỉ được làm 1 lần</b> trên thiết bị/trình duyệt này. Sau khi nộp, không thể sửa hoặc làm lại.</li>
         <li><b>Phần 1 — Nghe:</b> dùng audio gốc của giáo trình, mỗi câu nghe lại tối đa 2 lần.</li>
         <li><b>Phần 3 — Ngữ pháp:</b> gồm 3 dạng — trắc nghiệm, điền khuyết (chọn vị trí A/B/C/D phù hợp) và sắp xếp câu (gõ lại câu đúng thứ tự từ các từ cho sẵn).</li>
@@ -164,7 +164,7 @@
     <label>Bạn đã học tiếng Trung ở đâu trước đây? (không bắt buộc)</label>
     <input type="text" id="studentBg" placeholder="VD: tự học, trung tâm khác, trường đại học...">
     <div style="text-align:center; margin-top:16px;">
-      <button class="btn btn-primary" id="btnStart" onclick="startExam()">▶ Bắt đầu làm bài (25 phút)</button>
+      <button class="btn btn-primary" id="btnStart" onclick="startExam()">▶ Bắt đầu làm bài (40 phút)</button>
     </div>
     <div class="locked-note" id="lockedNote">🔒 Bạn đã nộp bài test này trên thiết bị/trình duyệt hiện tại. Mỗi học viên chỉ được làm bài 1 lần. Nếu cần hỗ trợ, vui lòng liên hệ giáo viên phụ trách.
       <div style="margin-top:10px; text-align:center;">
@@ -402,7 +402,7 @@ function setupAudioLimits(){
 setupAudioLimits();
 
 /* ============ TIMER ============ */
-let timeLeft = 25*60;
+let timeLeft = 40*60;
 let timerInterval = null;
 function startTimer(){
   document.getElementById('timerBar').classList.add('show');
