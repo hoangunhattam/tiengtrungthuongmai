@@ -127,6 +127,27 @@
   input[type=text]{
     border:1px solid var(--line); border-radius:6px; padding:6px 9px; font-size:1em; width:140px;
   }
+  .translate-input{
+    width:100%; border:1px solid var(--line); border-radius:8px; padding:8px 10px;
+    font-size:1.05em; font-family:inherit; resize:vertical;
+  }
+  .translate-input:focus{outline:none; border-color:var(--green);}
+
+  /* Hoạt động NGHE — nghe xong bấm để hiện chữ Hán */
+  .listen-reveal-wrap{display:flex; flex-direction:column; gap:12px; margin-top:10px;}
+  .listen-card{background:#f6fbf7; border:1px solid var(--line); border-radius:10px; padding:12px 14px;}
+  .listen-card-top{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .listen-num{font-weight:700; color:var(--green-dark);}
+  .reveal-btn{
+    background:var(--blue); color:#fff; border:none; padding:6px 14px; border-radius:8px;
+    cursor:pointer; font-weight:700; font-size:.85em;
+  }
+  .reveal-btn:hover{opacity:.88;}
+  .listen-reveal-answer{
+    display:none; margin-top:10px; padding:10px 12px; background:#fff;
+    border:1px dashed var(--gold); border-radius:8px; font-size:.95em;
+  }
+  .listen-reveal-answer.show{display:block;}
   .check-btn, .submit-btn{
     background:var(--blue); color:#fff; border:none; padding:7px 16px; border-radius:8px;
     cursor:pointer; font-weight:700; margin-top:8px; font-size:.88em;
@@ -252,8 +273,8 @@
 </header>
 
 <nav class="tabs">
-  <button class="tab-btn active" data-tab="tab1">📚 Từ vựng — Ngữ pháp</button>
-  <button class="tab-btn" data-tab="tab2">🎧 Hoạt động 4 kỹ năng</button>
+  <button class="tab-btn active" data-tab="tab1">📚 Kiến thức chuẩn</button>
+  <button class="tab-btn" data-tab="tab2">🎧 Hoạt động ôn luyện</button>
   <button class="tab-btn" data-tab="tab3">📝 Kiểm tra</button>
 </nav>
 
@@ -310,7 +331,7 @@
 
 </section>
 
-<!-- ===================== TAB 2: 4-SKILL ACTIVITIES ===================== -->
+<!-- ===================== TAB 2: HOẠT ĐỘNG ÔN LUYỆN ===================== -->
 <section class="panel" id="tab2">
 
   <div class="intro-banner">🎯 Mục đích: LUYỆN TẬP theo cặp/nhóm trên lớp — bấm xem đáp án ngay khi cần, KHÔNG tính điểm tổng kết. Giáo viên quan sát, sửa lỗi trực tiếp cho học viên. (Muốn làm bài thi cá nhân có tính điểm, chuyển sang tab "📝 Kiểm tra".)</div>
@@ -321,9 +342,9 @@
       <div class="phase-list" id="phase-list">
         <span data-p="0">Khởi động 1'</span>
         <span data-p="1">Nghe 3'</span>
-        <span data-p="2">Nói 3'</span>
+        <span data-p="2">Ghép cặp dịch 3'</span>
         <span data-p="3">Đọc 4'</span>
-        <span data-p="4">Viết 4'</span>
+        <span data-p="4">Ghép câu 4'</span>
       </div>
     </div>
     <div class="timer-btns">
@@ -336,47 +357,20 @@
   <!-- NGHE -->
   <div class="card">
     <div class="activity-block">
-      <h3>🎧 Hoạt động 1 — NGHE &amp; GHÉP CẶP <span class="zh">听力配对</span></h3>
-      <div class="meta">3 phút · Bấm 🔊 để nghe một câu bên trái, sau đó bấm vào nghĩa tiếng Việt tương ứng bên phải để ghép cặp. Có 1 câu ôn lại Bài 1.</div>
-      <div class="match-wrap" id="listen-match"></div>
-      <div class="progress-text" id="listen-progress">Đã ghép: 0/5</div>
-      <button class="check-btn" style="background:#5c6b60;" onclick="buildMatchGame('listen-match','listen-progress', listenPairs, true)">↺ Làm lại</button>
+      <h3>🎧 Hoạt động 1 — NGHE <span class="zh">听力</span></h3>
+      <div class="meta">3 phút · Bấm 🔊 Nghe để nghe câu, cố đoán chữ Hán trong đầu trước, sau đó bấm 👁 Hiện chữ Hán để kiểm tra lại. Có 1 câu ôn lại Bài 1.</div>
+      <div class="listen-reveal-wrap" id="listen-reveal"></div>
     </div>
   </div>
 
-  <!-- NÓI -->
+  <!-- GHÉP CẶP DỊCH -->
   <div class="card">
     <div class="activity-block">
-      <h3>🗣 Hoạt động 2 — NÓI <span class="zh">口语</span></h3>
-      <div class="meta">3 phút · Luyện nói theo cặp. Bấm 🔊 nghe câu mẫu rồi lặp lại (shadowing), sau đó đóng vai đón khách ở sân bay.</div>
-
-      <p><b>Bước 1 — Nghe &amp; nhại theo (shadowing):</b></p>
-      <p>
-        <button class="speak-inline" onclick="speak('你好！我是大卫。')">🔊 你好！我是大卫。</button>
-        <button class="speak-inline" onclick="speak('这是我的名片。')">🔊 这是我的名片。</button>
-        <button class="speak-inline" onclick="speak('谢谢！')">🔊 谢谢！</button>
-        <button class="speak-inline" onclick="speak('不客气！')">🔊 不客气！</button>
-        <button class="speak-inline" onclick="speak('你是美国人吗？')">🔊 你是美国人吗？</button>
-      </p>
-
-      <p><b>Bước 2 — Đóng vai theo cặp (A đi đón khách ở sân bay, B là khách nước ngoài):</b></p>
-      <div class="dialogue">
-        <p><b>A：</b>你好！<span class="py">Nǐ hǎo!</span> <span class="en">(ôn Bài 1)</span></p>
-        <p><b>B：</b>你好！我是大卫。<span class="py">Nǐ hǎo! Wǒ shì Dàwèi.</span></p>
-        <p><b>A：</b>你好！我是王丽。这是我的名片。<span class="py">Nǐ hǎo! Wǒ shì Wáng Lì. Zhè shì wǒ de míngpiàn.</span></p>
-        <p><b>B：</b>谢谢！这是我的名片。<span class="py">Xièxie! Zhè shì wǒ de míngpiàn.</span></p>
-        <p><b>A：</b>你是英国人吧？<span class="py">Nǐ shì Yīngguórén ba?</span></p>
-        <p><b>B：</b>不，我不是英国人，我是美国人。<span class="py">Bù, wǒ bú shì Yīngguórén, wǒ shì Měiguórén.</span></p>
-      </div>
-
-      <p><b>Bước 3 — Luyện đúng trọng tâm:</b> dùng 我是... để tự giới thiệu; dùng 这是我的名片 khi trao danh thiếp; dùng 不是... để đính chính (không dùng để tự giới thiệu lần đầu).</p>
-
-      <p><b>Tự đánh giá (đánh dấu sau khi luyện xong):</b></p>
-      <div class="checklist">
-        <label><input type="checkbox"> Phát âm đúng thanh điệu (是 shì, 不 bù/bú, 吧 ba...)</label>
-        <label><input type="checkbox"> Dùng đúng 我是... để giới thiệu, 不是... để đính chính</label>
-        <label><input type="checkbox"> Nhớ kết hợp chào hỏi Bài 1 trước khi tự giới thiệu</label>
-      </div>
+      <h3>🔗 Hoạt động 2 — GHÉP CẶP DỊCH <span class="zh">连线配对</span></h3>
+      <div class="meta">3 phút · Bấm vào tình huống tiếng Việt bên trái, sau đó bấm câu tiếng Trung phù hợp bên phải để ghép cặp. Có 1-2 tình huống ôn lại Bài 1.</div>
+      <div class="match-wrap" id="dich-match"></div>
+      <div class="progress-text" id="dich-progress">Đã ghép: 0/6</div>
+      <button class="check-btn" style="background:#5c6b60;" onclick="buildMatchGame('dich-match','dich-progress', dichPairs, false)">↺ Làm lại</button>
     </div>
   </div>
 
@@ -384,17 +378,19 @@
   <div class="card">
     <div class="activity-block">
       <h3>📖 Hoạt động 3 — ĐỌC <span class="zh">阅读</span></h3>
-      <div class="meta">4 phút · Đọc đoạn hội thoại (trích 课文1) rồi làm 2 hoạt động bên dưới.</div>
+      <div class="meta">4 phút · Đọc đoạn hội thoại mới sau (dùng đúng từ vựng — ngữ pháp đã học của Bài 2, khác với bài khóa 课文1), sau đó bấm "Ẩn đoạn hội thoại" và tự sắp xếp lại các câu bên dưới theo đúng thứ tự logic — dựa vào trí nhớ, không nhìn lại đoạn văn.</div>
 
-      <div class="dialogue">
-        <p><span class="en">(Vương Lệ, Lý Phương ra sân bay đón khách, tay cầm bảng ghi tên "大卫".)</span></p>
-        <p><b>大卫：</b>你好！我是大卫。<span class="py">Nǐ hǎo! Wǒ shì Dàwèi.</span></p>
-        <p><b>王丽：</b>你好！我是王丽。<span class="en">(bắt tay, trao danh thiếp)</span> 这是我的名片。<span class="py">Nǐ hǎo! Wǒ shì Wáng Lì. Zhè shì wǒ de míngpiàn.</span></p>
-        <p><b>大卫：</b>谢谢！这是我的名片。<span class="py">Xièxie! Zhè shì wǒ de míngpiàn.</span></p>
-        <p><b>王丽：</b>谢谢！<span class="py">Xièxie!</span></p>
+      <div class="dialogue" id="dialogue-passage">
+        <p><span class="en">(Đại sảnh khách sạn — 大卫 đến làm thủ tục nhận phòng, lễ tân kiểm tra giấy tờ.)</span></p>
+        <p><b>前台：</b>你好！这是你的护照吧？<span class="py">Nǐ hǎo! Zhè shì nǐ de hùzhào ba?</span></p>
+        <p><b>大卫：</b>是，这是我的护照。谢谢！<span class="py">Shì, zhè shì wǒ de hùzhào. Xièxie!</span></p>
+        <p><b>前台：</b>不客气！你是英国人吗？<span class="py">Bú kèqi! Nǐ shì Yīngguórén ma?</span></p>
+        <p><b>大卫：</b>不，我不是英国人，我是美国人。<span class="py">Bù, wǒ bú shì Yīngguórén, wǒ shì Měiguórén.</span></p>
+        <p><b>前台：</b>谢谢！<span class="py">Xièxie!</span></p>
       </div>
+      <button class="reveal-btn" id="btn-toggle-dialogue" type="button" onclick="toggleDialogue()">🙈 Ẩn đoạn hội thoại</button>
 
-      <p><b>Hoạt động 3a — Sắp xếp lại hội thoại:</b> Bấm vào các câu bên dưới theo đúng thứ tự xuất hiện trong bài khóa.</p>
+      <p style="margin-top:14px;"><b>Sắp xếp lại hội thoại:</b> Bấm vào các câu bên dưới theo đúng thứ tự xuất hiện trong đoạn hội thoại trên.</p>
       <div class="order-pool" id="order-pool"></div>
       <div class="order-answer" id="order-answer"></div>
       <div>
@@ -402,18 +398,13 @@
         <button class="check-btn" style="background:#5c6b60;" onclick="resetOrder()">↺ Đặt lại</button>
       </div>
       <div class="feedback" id="fb-order"></div>
-
-      <p style="margin-top:20px;"><b>Hoạt động 3b — Ghép tình huống với câu nói phù hợp:</b> (có trộn 1-2 tình huống ôn Bài 1)</p>
-      <div class="match-wrap" id="situation-match"></div>
-      <div class="progress-text" id="situation-progress">Đã ghép: 0/6</div>
-      <button class="check-btn" style="background:#5c6b60;" onclick="buildMatchGame('situation-match','situation-progress', situationPairs, false)">↺ Làm lại</button>
     </div>
   </div>
 
-  <!-- VIẾT -->
+  <!-- GHÉP CÂU -->
   <div class="card">
     <div class="activity-block">
-      <h3>✍️ Hoạt động 4 — VIẾT: GHÉP CÂU <span class="zh">组句</span></h3>
+      <h3>✍️ Hoạt động 4 — GHÉP CÂU <span class="zh">组句</span></h3>
       <div class="meta">4 phút · Bấm các mảnh ghép theo đúng thứ tự để tạo thành câu hoàn chỉnh. Bấm vào mảnh đã chọn trong khung đáp án để bỏ ra nếu chọn nhầm.</div>
       <div id="builder-wrap"></div>
     </div>
@@ -423,32 +414,66 @@
 
 <!-- ===================== TAB 3: QUIZ ===================== -->
 <section class="panel" id="tab3">
-  <div class="intro-banner test">🎯 Mục đích: KIỂM TRA cá nhân — làm hết 20 câu rồi mới bấm "Nộp bài" để tính điểm và xem đáp án chi tiết cuối cùng. Đây là phần đánh giá kết quả học, khác với Tab 2 (chỉ để luyện tập, không tính điểm).</div>
+  <div class="intro-banner test">🎯 Mục đích: KIỂM TRA cá nhân — làm hết cả Phần 1 (trắc nghiệm) và Phần 2 (tự luận) rồi mới bấm "Nộp bài" để tính điểm và gửi bài cho giáo viên. Đây là phần đánh giá kết quả học, khác với Tab 2 (chỉ để luyện tập, không tính điểm). Cả 2 phần chỉ được làm <b>1 lần</b> — dùng chung nút Nộp bài / Làm lại bên dưới.</div>
+
   <div class="card">
-    <h2>📝 Bài kiểm tra tổng hợp <span class="zh">综合测验</span></h2>
-    <div class="sub">20 câu · Tổng 100 điểm · Trộn từ vựng — ngữ pháp — đọc hiểu — tình huống Bài 2, có ôn lại Bài 1. Bài kiểm tra chỉ được làm <b>1 lần</b> — làm hết rồi mới bấm <b>Nộp bài</b>.</div>
+    <h2>📝 Phần 1 — Bài kiểm tra tổng hợp <span class="zh">综合测验</span></h2>
+    <div class="sub">20 câu · Tổng 100 điểm · Trộn từ vựng — ngữ pháp — đọc hiểu — tình huống Bài 2, có ôn lại Bài 1.</div>
 
     <div class="name-field">
       <label>Họ và tên học viên: <input type="text" id="student-name" placeholder="Nhập họ tên của bạn..."></label>
     </div>
 
     <div id="quiz-wrap"></div>
+  </div>
 
+  <div class="card">
+    <h2>✍️ Phần 2 — Bài tự luận: Dịch Việt-Trung <span class="zh">越译中（自由作答）</span></h2>
+    <div class="sub">5 câu · Dịch các câu tiếng Việt sau sang tiếng Trung (viết chữ Hán, có thể kèm pinyin). Phần này không tính điểm tự động — giáo viên chấm trực tiếp dựa trên bài nộp.</div>
+
+    <div class="q">
+      <div class="qtext">1. Tôi là David.</div>
+      <textarea class="translate-input" rows="2" placeholder="Viết câu tiếng Trung của bạn ở đây..."></textarea>
+    </div>
+    <div class="q">
+      <div class="qtext">2. Đây là danh thiếp của tôi.</div>
+      <textarea class="translate-input" rows="2" placeholder="Viết câu tiếng Trung của bạn ở đây..."></textarea>
+    </div>
+    <div class="q">
+      <div class="qtext">3. Cảm ơn! Không có gì.</div>
+      <textarea class="translate-input" rows="2" placeholder="Viết câu tiếng Trung của bạn ở đây..."></textarea>
+    </div>
+    <div class="q">
+      <div class="qtext">4. Bạn là người Mỹ phải không?</div>
+      <textarea class="translate-input" rows="2" placeholder="Viết câu tiếng Trung của bạn ở đây..."></textarea>
+    </div>
+    <div class="q">
+      <div class="qtext">5. Tôi không phải là người Anh, tôi là người Trung Quốc.</div>
+      <textarea class="translate-input" rows="2" placeholder="Viết câu tiếng Trung của bạn ở đây..."></textarea>
+    </div>
+  </div>
+
+  <div class="card">
     <div id="quiz-controls">
       <button class="submit-btn" id="btn-submit-quiz" onclick="submitQuiz()">✅ Nộp bài</button>
       <button class="check-btn" id="btn-reset-quiz" style="background:#5c6b60;" onclick="resetQuiz()">↺ Làm lại (trước khi nộp)</button>
     </div>
-    <div class="locked-note" id="locked-note" style="display:none;">🔒 Bạn đã nộp bài. Bài kiểm tra chỉ được làm 1 lần nên không thể sửa hoặc làm lại nữa.</div>
+    <div class="locked-note" id="locked-note" style="display:none;">
+      🔒 Bạn đã nộp bài. Cả 2 phần chỉ được làm 1 lần nên không thể sửa hoặc làm lại nữa.
+      <div style="margin-top:8px;">
+        <button class="check-btn" style="background:#c0392b;" onclick="hardResetQuiz()">🗑 Xóa kết quả &amp; làm lại từ đầu</button>
+      </div>
+    </div>
 
     <div class="score-panel" id="score-panel">
-      <div>Kết quả của bạn</div>
+      <div>Kết quả Phần 1 (trắc nghiệm)</div>
       <div class="num" id="score-num">0/100</div>
       <div id="score-msg"></div>
     </div>
 
     <div class="export-panel" id="export-panel">
       <h3>📤 Nộp kết quả cho giáo viên</h3>
-      <div class="sub">Sao chép văn bản bên dưới rồi gửi cho giáo viên qua Zalo/Messenger, hoặc bấm "In / Lưu PDF" để lưu lại làm bằng chứng nộp bài.</div>
+      <div class="sub">Sao chép văn bản bên dưới (gồm cả điểm Phần 1 và bài dịch Phần 2) rồi gửi cho giáo viên qua Zalo/Messenger, hoặc bấm "In / Lưu PDF" để lưu lại làm bằng chứng nộp bài.</div>
       <textarea id="export-text" readonly></textarea>
       <div class="export-actions">
         <button class="check-btn" onclick="copyResult()">📋 Sao chép kết quả</button>
@@ -550,6 +575,25 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
 });
 
 /* ============ TTS ============ */
+/* Chọn giọng đọc tiếng Trung tốt nhất mà trình duyệt/thiết bị đang có sẵn.
+   Chất lượng và độ chuẩn phát âm phụ thuộc vào giọng đọc hệ thống (Web Speech API) —
+   trên máy có giọng "Google 普通话" / "Tingting" / "Yaoyao" sẽ nghe tự nhiên hơn giọng mặc định. */
+let zhVoice = null;
+function pickZhVoice(){
+  const voices = speechSynthesis.getVoices();
+  if(!voices || !voices.length) return null;
+  const preferredNames = ['Google 普通话（中国大陆）','Google 普通话','Tingting','Ting-Ting','Yaoyao','Sinji','Meijia','Microsoft Yaoyao','Microsoft Huihui','Microsoft Xiaoxiao'];
+  for(const name of preferredNames){
+    const v = voices.find(v=>v.name.includes(name));
+    if(v) return v;
+  }
+  return voices.find(v=>v.lang==='zh-CN') || voices.find(v=>v.lang && v.lang.startsWith('zh')) || null;
+}
+if('speechSynthesis' in window){
+  zhVoice = pickZhVoice();
+  speechSynthesis.onvoiceschanged = ()=>{ zhVoice = pickZhVoice(); };
+}
+
 function speak(text){
   if(!('speechSynthesis' in window)){
     alert('Trình duyệt này không hỗ trợ phát âm. Giáo viên vui lòng đọc mẫu.');
@@ -557,7 +601,9 @@ function speak(text){
   }
   const u = new SpeechSynthesisUtterance(text);
   u.lang = 'zh-CN';
-  u.rate = 0.82;
+  u.rate = 0.68;   // tốc độ chậm, phù hợp trình độ sơ cấp (mặc định trình duyệt = 1.0)
+  u.pitch = 1;
+  if(zhVoice) u.voice = zhVoice;
   speechSynthesis.cancel();
   speechSynthesis.speak(u);
 }
@@ -588,14 +634,59 @@ function pauseTimer(){ clearInterval(timerInterval); timerInterval=null; }
 function resetTimer(){ pauseTimer(); remaining = totalSeconds; updateClock(); }
 updateClock();
 
-/* ============ HOẠT ĐỘNG 1 — NGHE & GHÉP CẶP (matching game, không tính điểm) ============ */
+/* ============ HOẠT ĐỘNG 1 — NGHE (dữ liệu 5 câu, nghe xong bấm hiện chữ Hán) ============ */
 const listenPairs = [
-  {zh:"我是大卫。", vi:"Tôi là David. (tự giới thiệu)"},
-  {zh:"这是我的名片。", vi:"Đây là danh thiếp của tôi."},
-  {zh:"不客气！", vi:"Không có gì! (đáp lại lời cảm ơn)"},
-  {zh:"你是美国人吗？", vi:"Bạn là người Mỹ phải không?"},
-  {zh:"唐总，再见！", vi:"Tạm biệt Tổng giám đốc! (ôn Bài 1)"}
+  {zh:"我是大卫。", py:"Wǒ shì Dàwèi.", vi:"Tôi là David. (tự giới thiệu)"},
+  {zh:"这是我的名片。", py:"Zhè shì wǒ de míngpiàn.", vi:"Đây là danh thiếp của tôi."},
+  {zh:"不客气！", py:"Bú kèqi!", vi:"Không có gì! (đáp lại lời cảm ơn)"},
+  {zh:"你是美国人吗？", py:"Nǐ shì Měiguórén ma?", vi:"Bạn là người Mỹ phải không?"},
+  {zh:"唐总，再见！", py:"Táng zǒng, zàijiàn!", vi:"Tạm biệt Tổng giám đốc! (ôn Bài 1)"}
 ];
+
+/* ============ HOẠT ĐỘNG 1 — NGHE (nghe xong bấm để hiện chữ Hán) ============ */
+function renderListenReveal(containerId, pairs){
+  const wrap = document.getElementById(containerId);
+  wrap.innerHTML = '';
+  pairs.forEach((p,i)=>{
+    const card = document.createElement('div');
+    card.className = 'listen-card';
+
+    const top = document.createElement('div');
+    top.className = 'listen-card-top';
+
+    const num = document.createElement('span');
+    num.className = 'listen-num';
+    num.textContent = (i+1)+'.';
+
+    const speakBtn = document.createElement('button');
+    speakBtn.className = 'speak-inline';
+    speakBtn.type = 'button';
+    speakBtn.textContent = '🔊 Nghe';
+    speakBtn.addEventListener('click', ()=>speak(p.zh));
+
+    const revealBtn = document.createElement('button');
+    revealBtn.className = 'reveal-btn';
+    revealBtn.type = 'button';
+    revealBtn.textContent = '👁 Hiện chữ Hán';
+
+    top.appendChild(num); top.appendChild(speakBtn); top.appendChild(revealBtn);
+
+    const ansBox = document.createElement('div');
+    ansBox.className = 'listen-reveal-answer';
+    ansBox.innerHTML = `<span class="zh-cell">${p.zh}</span> <button class="speak-btn" type="button">🔊</button><br>
+      <span class="pinyin">${p.py}</span><br>${p.vi}`;
+    ansBox.querySelector('.speak-btn').addEventListener('click', ()=>speak(p.zh));
+
+    revealBtn.addEventListener('click', ()=>{
+      const showing = ansBox.classList.toggle('show');
+      revealBtn.textContent = showing ? '🙈 Ẩn chữ Hán' : '👁 Hiện chữ Hán';
+    });
+
+    card.appendChild(top);
+    card.appendChild(ansBox);
+    wrap.appendChild(card);
+  });
+}
 
 function shuffle(arr){
   const a = arr.slice();
@@ -659,15 +750,24 @@ function buildMatchGame(containerId, progressId, pairs, leftIsAudio){
   wrap.appendChild(colL); wrap.appendChild(colR);
 }
 
-/* ============ HOẠT ĐỘNG 3a — SẮP XẾP LẠI HỘI THOẠI (order game) ============ */
+/* ============ HOẠT ĐỘNG 3 — ĐỌC: SẮP XẾP LẠI HỘI THOẠI (order game) ============ */
+/* Đoạn hội thoại mới (khác 课文1), chỉ dùng từ vựng — ngữ pháp đã học của Bài 2. */
 const dialogueOrder = [
-  "大卫：你好！我是大卫。",
-  "王丽：你好！我是王丽。",
-  "王丽：这是我的名片。",
-  "大卫：谢谢！这是我的名片。",
-  "王丽：谢谢！"
+  "前台：你好！这是你的护照吧？",
+  "大卫：是，这是我的护照。谢谢！",
+  "前台：不客气！你是英国人吗？",
+  "大卫：不，我不是英国人，我是美国人。",
+  "前台：谢谢！"
 ];
 let orderPicked = [];
+
+function toggleDialogue(){
+  const box = document.getElementById('dialogue-passage');
+  const btn = document.getElementById('btn-toggle-dialogue');
+  const hidden = box.style.display === 'none';
+  box.style.display = hidden ? '' : 'none';
+  btn.textContent = hidden ? '🙈 Ẩn đoạn hội thoại' : '👁 Hiện lại đoạn hội thoại';
+}
 
 function buildOrderGame(){
   const pool = document.getElementById('order-pool');
@@ -713,12 +813,12 @@ function checkOrder(){
     if(!ok) allOk = false;
   });
   fb.className = allOk? 'feedback correct':'feedback wrong';
-  fb.textContent = allOk? '✔ Chính xác! Đúng thứ tự hội thoại trong 课文1.' : '✘ Còn vài câu chưa đúng vị trí (màu đỏ). Bấm "Đặt lại" để thử lại.';
+  fb.textContent = allOk? '✔ Chính xác! Đúng thứ tự đoạn hội thoại.' : '✘ Còn vài câu chưa đúng vị trí (màu đỏ). Bấm "Đặt lại" để thử lại.';
 }
 function resetOrder(){ orderPicked = []; buildOrderGame(); }
 
-/* ============ HOẠT ĐỘNG 3b — GHÉP TÌNH HUỐNG VỚI CÂU NÓI PHÙ HỢP ============ */
-const situationPairs = [
+/* ============ HOẠT ĐỘNG 2 — GHÉP CẶP DỊCH (tình huống ↔ câu tiếng Trung) ============ */
+const dichPairs = [
   {left:"Tự giới thiệu tên mình lần đầu gặp mặt", right:"我是大卫。"},
   {left:"Trao danh thiếp cho đối tác", right:"这是我的名片。"},
   {left:"Đáp lại lời cảm ơn", right:"不客气！"},
@@ -814,9 +914,9 @@ function buildSentenceBuilder(){
 }
 
 /* ============ Khởi tạo các hoạt động Tab 2 ============ */
-buildMatchGame('listen-match','listen-progress', listenPairs, true);
+renderListenReveal('listen-reveal', listenPairs);
+buildMatchGame('dich-match','dich-progress', dichPairs, false);
 buildOrderGame();
-buildMatchGame('situation-match','situation-progress', situationPairs, false);
 buildSentenceBuilder();
 
 /* ============ QUIZ (20 câu, tổng 100 điểm, chỉ nộp 1 lần) ============ */
@@ -915,6 +1015,7 @@ function gradeQuiz(){
 function lockUI(){
   quizLocked = true;
   document.querySelectorAll('#quiz-wrap input').forEach(el=>el.disabled=true);
+  document.querySelectorAll('.translate-input').forEach(el=>el.disabled=true);
   document.getElementById('student-name').disabled = true;
   document.getElementById('btn-submit-quiz').disabled = true;
   document.getElementById('btn-reset-quiz').disabled = true;
@@ -937,6 +1038,10 @@ function submitQuiz(){
     return;
   }
   const {score, correctList, wrongList} = gradeQuiz();
+
+  const translateInputs = document.querySelectorAll('.translate-input');
+  const translateAnswers = Array.from(translateInputs).map(t=>t.value.trim());
+
   lockUI();
 
   const panel = document.getElementById('score-panel');
@@ -944,19 +1049,28 @@ function submitQuiz(){
   document.getElementById('score-num').textContent = score+'/'+quizMaxScore;
   document.getElementById('score-msg').textContent = scoreMessage(score);
 
-  // Xuất kết quả để nộp giáo viên
+  // Xuất kết quả để nộp giáo viên (gộp cả Phần 1 và Phần 2)
   const now = new Date();
   const timeStr = now.toLocaleString('vi-VN');
   const studentName = nameInput.value.trim();
+
+  let translateBody = '';
+  translateSentences.forEach((s,i)=>{
+    translateBody += `${s}\n→ ${translateAnswers[i] || '(chưa trả lời)'}\n\n`;
+  });
+
   const summary =
 `KẾT QUẢ KIỂM TRA — Hoa Ngữ Nhất Tâm
 Bài 2 — 这是我的名片
 Họ tên học viên: ${studentName}
 Nộp lúc: ${timeStr}
-Điểm: ${score}/${quizMaxScore}
 
+PHẦN 1 — TRẮC NGHIỆM: ${score}/${quizMaxScore} điểm
 Câu làm đúng (${correctList.length}/${quizData.length}): ${correctList.join(', ') || 'không có'}
-Câu làm sai (${wrongList.length}/${quizData.length}): ${wrongList.join(', ') || 'không có'}`;
+Câu làm sai (${wrongList.length}/${quizData.length}): ${wrongList.join(', ') || 'không có'}
+
+PHẦN 2 — TỰ LUẬN DỊCH VIỆT-TRUNG (giáo viên chấm trực tiếp):
+${translateBody.trim()}`;
   document.getElementById('export-text').value = summary;
   document.getElementById('export-panel').style.display = 'block';
 
@@ -965,7 +1079,7 @@ Câu làm sai (${wrongList.length}/${quizData.length}): ${wrongList.join(', ') |
   try{
     localStorage.setItem(QUIZ_STORAGE_KEY, JSON.stringify({
       name: studentName, score, max: quizMaxScore, correctList, wrongList,
-      time: timeStr, summary, rawAnswers: collectRawAnswers()
+      time: timeStr, summary, rawAnswers: collectRawAnswers(), translateAnswers
     }));
   }catch(e){ /* localStorage có thể bị chặn — vẫn khoá được trong phiên hiện tại */ }
 
@@ -974,11 +1088,31 @@ Câu làm sai (${wrongList.length}/${quizData.length}): ${wrongList.join(', ') |
 
 function resetQuiz(){
   if(quizLocked){
-    alert('Bạn đã nộp bài kiểm tra này. Bài kiểm tra chỉ được làm 1 lần nên không thể làm lại.');
+    alert('Bạn đã nộp bài này. Cả 2 phần chỉ được làm 1 lần nên không thể làm lại. Dùng nút "🗑 Xóa kết quả & làm lại từ đầu" nếu thực sự muốn làm lại.');
     return;
   }
   renderQuiz();
+  document.querySelectorAll('.translate-input').forEach(t=>t.value = '');
   document.getElementById('score-panel').style.display = 'none';
+}
+
+function hardResetQuiz(){
+  const ok = confirm('Bạn có chắc muốn xóa toàn bộ kết quả đã nộp (cả Phần 1 và Phần 2) và làm lại từ đầu? Hành động này không thể hoàn tác.');
+  if(!ok) return;
+  try{ localStorage.removeItem(QUIZ_STORAGE_KEY); }catch(e){ /* localStorage có thể bị chặn */ }
+  quizLocked = false;
+  document.querySelectorAll('#quiz-wrap input').forEach(el=>el.disabled=false);
+  document.querySelectorAll('.translate-input').forEach(el=>{ el.disabled=false; el.value=''; });
+  const nameInput = document.getElementById('student-name');
+  nameInput.disabled = false;
+  nameInput.value = '';
+  document.getElementById('btn-submit-quiz').disabled = false;
+  document.getElementById('btn-reset-quiz').disabled = false;
+  document.getElementById('locked-note').style.display = 'none';
+  document.getElementById('score-panel').style.display = 'none';
+  document.getElementById('export-panel').style.display = 'none';
+  document.getElementById('export-text').value = '';
+  renderQuiz();
 }
 
 function restoreLockedQuiz(){
@@ -991,6 +1125,12 @@ function restoreLockedQuiz(){
   document.getElementById('student-name').value = data.name || '';
   applyRawAnswers(data.rawAnswers);
   gradeQuiz();
+
+  const translateInputs = document.querySelectorAll('.translate-input');
+  if(data.translateAnswers){
+    translateInputs.forEach((t,i)=>{ t.value = data.translateAnswers[i] || ''; });
+  }
+
   lockUI();
 
   const panel = document.getElementById('score-panel');
@@ -1014,6 +1154,15 @@ function copyResult(){
     alert('Đã sao chép kết quả!');
   }
 }
+
+/* ============ PHẦN 2 — DỊCH VIỆT-TRUNG (TỰ LUẬN, GIÁO VIÊN TỰ CHẤM) ============ */
+const translateSentences = [
+  '1. Tôi là David.',
+  '2. Đây là danh thiếp của tôi.',
+  '3. Cảm ơn! Không có gì.',
+  '4. Bạn là người Mỹ phải không?',
+  '5. Tôi không phải là người Anh, tôi là người Trung Quốc.'
+];
 </script>
 </body>
 </html>
