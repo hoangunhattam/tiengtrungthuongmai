@@ -309,11 +309,11 @@ const quizGrammarBlank = [
 
 // PHẦN 3.3 — NGỮ PHÁP: SẮP XẾP CÂU (5 câu, gõ lại câu đúng thứ tự)
 const quizGrammarOrder = [
-  {q:'1. Sắp xếp thành câu hoàn chỉnh:', bank:['经理','大卫','这是','外方'], ans:['这是大卫，外方经理','这是大卫外方经理'], hint:'Gợi ý: 这是 + tên người + , + chức vụ'},
-  {q:'2. Sắp xếp thành câu hoàn chỉnh:', bank:['十点','您','有','个','会议'], ans:['您十点有个会议'], hint:'Gợi ý: Chủ ngữ + thời gian + 有 + số lượng + danh từ'},
-  {q:'3. Sắp xếp thành câu hoàn chỉnh:', bank:['了','太好','条件','办公'], ans:['办公条件太好了'], hint:'Gợi ý: Chủ ngữ + 太 + tính từ + 了'},
-  {q:'4. Sắp xếp thành câu hoàn chỉnh:', bank:['地铁','也','坐','可以'], ans:['也可以坐地铁'], hint:'Gợi ý: 也 + 可以 + động từ + tân ngữ'},
-  {q:'5. Sắp xếp thành câu hoàn chỉnh:', bank:['了','交','这批货','得','月底'], ans:['这批货月底交得了'], hint:'Gợi ý: Chủ ngữ + thời gian + động từ + 得 + bổ ngữ khả năng'}
+  {q:'1. Sắp xếp thành câu hoàn chỉnh:', bank:['公司','经理','大卫','的','是','我们'], ans:['大卫是我们公司的经理']},
+  {q:'2. Sắp xếp thành câu hoàn chỉnh:', bank:['十点','您','有','个','会议'], ans:['您十点有个会议']},
+  {q:'3. Sắp xếp thành câu hoàn chỉnh:', bank:['了','太好','条件','办公室'], ans:['办公室条件太好了']},
+  {q:'4. Sắp xếp thành câu hoàn chỉnh:', bank:['你','地铁','也','坐','可以'], ans:['你也可以坐地铁']},
+  {q:'5. Sắp xếp thành câu hoàn chỉnh:', bank:['月底','这批货','能','交','才'], ans:['这批货月底才能交']}
 ];
 
 // PHẦN 4 — VIẾT (1 câu tự luận, giáo viên chấm riêng)
@@ -361,7 +361,6 @@ function renderOrder(container, data, prefix, pts){
     html += `<div class="q" id="${prefix}-${i}"><div class="qhead">${item.q.replace(/^\d+\.\s*/,(m)=>m)}<span class="pts">${pts}đ</span></div>
     ${bankHtml}
     <input type="text" id="${prefix}-in-${i}" placeholder="Gõ lại câu hoàn chỉnh, đúng thứ tự...">
-    <div class="sub" style="margin-top:4px;">${item.hint||''}</div>
     <div class="feedback" id="${prefix}-exp-${i}"></div></div>`;
   });
   container.innerHTML = html;
