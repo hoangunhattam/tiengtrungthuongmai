@@ -935,8 +935,8 @@ const quizData = [
   {points:6, type:'text', q:'Sắp xếp thành câu: 请 / 这边 (dùng để chỉ đường cho khách)', ans:['这边请！','这边请'], exp:'这边请！= Mời lối này!'},
   {points:6, type:'mc', q:'(Đọc hội thoại 课文2) Ai là người nói "女士优先"?', opts:['王丽','大卫','李方','司机'], ans:1, exp:'大卫 nói: 你先请，女士优先！— trong 课文2.'},
   {points:6, type:'text', q:'(Ôn Bài 1) Sắp xếp thành câu: 好 / 你们', ans:['你们好！','你们好'], exp:'你们好！= Chào các bạn/mọi người! (ôn Bài 1)'},
-  {points:7, type:'text', q:'Tình huống: Bạn mời khách bước vào bên trong văn phòng công ty, hãy viết câu tiếng Trung phù hợp.', ans:['里边请','里边请！'], exp:'里边请！— dùng đúng cấu trúc mời khách vào bên trong.'},
-  {points:7, type:'text', q:'Tình huống: (Ôn Bài 2) Đối tác vừa trao danh thiếp và nói "这是我的名片"; hãy viết câu đáp lại phù hợp bằng tiếng Trung.', ans:['谢谢','谢谢！'], exp:'谢谢！— đáp lại khi nhận danh thiếp từ đối tác (ôn Bài 2).'}
+  {points:7, type:'text', mode:'contains', requireAll:['请'], requireAny:['里边','里面','进'], q:'Tình huống: Bạn mời khách bước vào bên trong văn phòng công ty, hãy viết câu tiếng Trung phù hợp.', ans:['里边请！'], exp:'里边请！/ 请里边！/ 请进！— chỉ cần câu có 请 và ý "vào bên trong" là được chấp nhận, không bắt buộc đúng y hệt 1 đáp án.'},
+  {points:7, type:'text', mode:'contains', requireAll:[], requireAny:['谢'], q:'Tình huống: (Ôn Bài 2) Đối tác vừa trao danh thiếp và nói "这是我的名片"; hãy viết câu đáp lại phù hợp bằng tiếng Trung.', ans:['谢谢！'], exp:'谢谢！/ 多谢！/ 非常感谢！— mọi câu thể hiện lời cảm ơn (có chứa 谢) đều được chấp nhận.'}
 ];
 const quizMaxScore = quizData.reduce((s,q)=>s+q.points,0);
 const QUIZ_STORAGE_KEY = 'hnnt_bai3_qing_quiz_v1';
@@ -995,6 +995,14 @@ function gradeQuiz(){
     if(item.type==='mc'){
       const sel = document.querySelector(`input[name="quiz${i}"]:checked`);
       ok = sel && parseInt(sel.value)===item.ans;
+    } else if(item.mode === 'contains'){
+      // Chấm nới lỏng: không so khớp 1 đáp án cố định, chỉ cần chứa đủ các từ khóa bắt buộc
+      // (requireAll) và ít nhất 1 từ trong nhóm được chấp nhận (requireAny nếu có).
+      const raw = document.getElementById('quiz-in-'+i).value.trim();
+      const val = raw.replace(/\s/g,'');
+      const hasAll = (item.requireAll||[]).every(k=>val.includes(k));
+      const hasAny = !item.requireAny || item.requireAny.length===0 || item.requireAny.some(k=>val.includes(k));
+      ok = val.length>0 && hasAll && hasAny;
     } else {
       const val = document.getElementById('quiz-in-'+i).value.trim().replace(/[！!。.，,\s]/g,'');
       const norm = item.ans.map(a=>a.replace(/[！!。.，,\s]/g,''));
@@ -1003,7 +1011,10 @@ function gradeQuiz(){
     div.classList.remove('correct-final','wrong-final');
     div.classList.add(ok?'correct-final':'wrong-final');
     expBox.style.display = 'block';
-    expBox.textContent = (ok?'✔ Đúng ('+item.points+'đ). ':'✘ Sai (0/'+item.points+'đ). Đáp án đúng: '+ (item.type==='mc'? String.fromCharCode(65+item.ans)+'. '+item.opts[item.ans] : item.ans[0]) + '. ') + item.exp;
+    const correctLabel = item.type==='mc'
+      ? String.fromCharCode(65+item.ans)+'. '+item.opts[item.ans]
+      : (item.mode==='contains' ? 'VD: '+item.ans[0]+' (chấp nhận nhiều cách diễn đạt tương đương, không bắt buộc đúng y hệt)' : item.ans[0]);
+    expBox.textContent = (ok?'✔ Đúng ('+item.points+'đ). ':'✘ Sai (0/'+item.points+'đ). Đáp án đúng: '+ correctLabel + '. ') + item.exp;
     if(ok){ score += item.points; correctList.push(i+1); } else { wrongList.push(i+1); }
   });
   return {score, correctList, wrongList};
