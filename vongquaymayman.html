@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Vòng Quay May Mắn V4 Demo</title>
+<style>
+body{font-family:Segoe UI,Arial;margin:0;background:#eef7ef}
+header{background:#1F7D3A;color:#fff;padding:16px;text-align:center;font-size:30px;font-weight:bold}
+#bar{display:flex;justify-content:center;gap:10px;padding:10px}
+button{padding:10px 16px;border:none;border-radius:8px;background:#1F7D3A;color:#fff;cursor:pointer}
+select{padding:8px;font-size:16px}
+#grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,120px));gap:10px;padding:20px;max-width:1000px;margin:auto}
+.card{border:2px solid #1F7D3A;border-radius:8px;background:#fff;width:120px;height:120px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:bold;font-size:22px;transition:.18s}.card.flash{background:#d8f7df;transform:scale(1.04)}.card.win{background:#8be0a4;transform:scale(1.08);box-shadow:0 0 12px #1F7D3A}
+.used{opacity:.35}
+.modal{position:fixed;inset:0;background:#0006;display:none;align-items:center;justify-content:center}
+.box{background:#fff;padding:20px;border-radius:10px;width:700px;max-width:92vw}
+textarea,input{width:100%;box-sizing:border-box;margin:6px 0;padding:8px}
+#winner{font-size:48px;text-align:center;color:#1F7D3A;font-weight:bold}
+</style>
+</head>
+<body>
+<header>🎉 VÒNG QUAY MAY MẮN</header>
+
+<div id="bar">
+<select id="classSelect"></select>
+<button onclick="pick()">🎯 Chọn</button>
+<button onclick="resetCurrent()">↺ Reset</button>
+<button onclick="openMgr()">⚙ Quản lý lớp</button>
+</div>
+
+<div id="grid"></div>
+
+<div class="modal" id="win"><div class="box"><div id="winner"></div></div></div>
+
+<div class="modal" id="mgr">
+<div class="box">
+<h2>Quản lý lớp</h2>
+<label>Tên lớp</label>
+<input id="clsName">
+<label>Danh sách học viên (mỗi dòng một tên)</label>
+<textarea id="clsList" rows="12"></textarea>
+<button onclick="saveClass()">💾 Lưu</button>
+<button onclick="newClass()">➕ Thêm lớp mới</button>
+<button onclick="deleteClass()">🗑 Xóa lớp</button>
+<button onclick="closeMgr()">Đóng</button>
+</div>
+</div>
+
+<script>
+let db=JSON.parse(localStorage.getItem("luckyWheelDB")||"{}");
+if(Object.keys(db).length===0){
+ db={
+ "HSK2 T2-4-6":["An","Bình","Chi","Dung","Hải"],
+ "HSK3 Online":["Lan","Mai","Nga","Phương","Vy"],
+ "TM K15":["A","B","C","D"]
+ };
+ localStorage.setItem("luckyWheelDB",JSON.stringify(db));
+}
+let remain={};
+Object.keys(db).forEach(k=>remain[k]=[...db[k]]);
+const sel=document.getElementById("classSelect");
+let picking=false;
+
+function fillSelect(){
+ sel.innerHTML="";
+ Object.keys(db).forEach(k=>{
+   let o=document.createElement("option");
+   o.textContent=o.value=k;
+   sel.appendChild(o);
+ });
+ render();
+}
+sel.onchange=render;
+
+function render(){
+ let cls=sel.value;
+ let g=document.getElementById("grid");
+ g.innerHTML="";
+ db[cls].forEach(n=>{
+   let d=document.createElement("div");
+   d.className="card"+(remain[cls].includes(n)?"":" used");
+   d.textContent=n;
+   g.appendChild(d);
+ });
+}
+
+function pick(){
+ if(picking) return;
+ picking=true;
+ const cls=sel.value;
+ if(remain[cls].length===0){
+   remain[cls]=[...db[cls]];
+   render();
+ }
+ const cards=[...document.querySelectorAll('.card')];
+ cards.forEach(c=>c.classList.remove('flash','win'));
+
+ const pool=[...remain[cls]];
+ const target=pool[Math.floor(Math.random()*pool.length)];
+ const targetIndex=[...cards].findIndex(c=>c.textContent===target);
+
+ let step=0;
+ const stop=40+targetIndex;
+
+ (function animate(){
+    cards.forEach(c=>c.classList.remove('flash'));
+    cards[step % cards.length].classList.add('flash');
+    if(step<stop){
+        step++;
+        setTimeout(animate,40);
+    }else{
+        cards.forEach(c=>c.classList.remove('flash'));
+        cards[targetIndex].classList.add('win');
+        setTimeout(()=>{
+            winner.textContent=target;
+            win.style.display='flex';
+            setTimeout(()=>{
+                win.style.display='none';
+                remain[cls]=remain[cls].filter(n=>n!==target);
+                picking=false;
+                render();
+            },1200);
+        },400);
+    }
+ })();
+}
+
+function resetCurrent(){remain[sel.value]=[...db[sel.value]];render();}
+
+function openMgr(){
+ clsName.value=sel.value;
+ clsList.value=db[sel.value].join("\n");
+ mgr.style.display="flex";
+}
+function closeMgr(){mgr.style.display="none";}
+function saveClass(){
+ let old=sel.value;
+ let name=clsName.value.trim();
+ let list=clsList.value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+ delete db[old];
+ db[name]=list;
+ remain[name]=[...list];
+ localStorage.setItem("luckyWheelDB",JSON.stringify(db));
+ fillSelect();
+ sel.value=name;
+ render();
+ closeMgr();
+}
+function newClass(){
+ let name=prompt("Tên lớp mới:");
+ if(!name)return;
+ if(db[name]) return alert("Đã tồn tại.");
+ db[name]=[];
+ remain[name]=[];
+ localStorage.setItem("luckyWheelDB",JSON.stringify(db));
+ fillSelect();
+ sel.value=name;
+ openMgr();
+}
+function deleteClass(){
+ if(!confirm("Xóa lớp này?"))return;
+ delete db[sel.value];
+ localStorage.setItem("luckyWheelDB",JSON.stringify(db));
+ remain={};Object.keys(db).forEach(k=>remain[k]=[...db[k]]);
+ if(Object.keys(db).length===0){db={"Lớp mới":[]};}
+ fillSelect();
+ closeMgr();
+}
+fillSelect();
+</script>
+</body>
+</html>
