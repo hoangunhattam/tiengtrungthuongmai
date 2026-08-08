@@ -219,7 +219,10 @@
     display:flex; flex-wrap:wrap; gap:8px; min-height:44px; margin:10px 0; padding:8px;
     background:#f6fbf7; border:1px dashed var(--line); border-radius:10px;
   }
-  .order-answer .chip{background:var(--blue-bg); border:1px solid #bcd4e6; color:var(--blue); border-radius:8px; padding:6px 10px; font-size:.88em;}
+  .order-answer .chip{background:var(--blue-bg); border:1px solid #bcd4e6; color:var(--blue); border-radius:8px; padding:6px 10px; font-size:.88em; cursor:pointer;}
+  .order-answer .chip:hover{opacity:.8;}
+  .order-answer .chip.empty{background:#fff; border:1px dashed #c7cfc9; color:#9aa39c; font-style:italic; cursor:default;}
+  .order-answer .chip.empty:hover{opacity:1;}
   .order-answer .chip.ok{background:var(--green-light); border-color:#b6dfb9; color:var(--green-dark);}
   .order-answer .chip.bad{background:var(--red-bg); border-color:#f0c4bd; color:var(--red);}
 
@@ -400,7 +403,7 @@
       </div>
       <button class="reveal-btn" id="btn-toggle-dialogue" type="button" onclick="toggleDialogue()">🙈 Ẩn đoạn hội thoại</button>
 
-      <p style="margin-top:14px;"><b>Sắp xếp lại hội thoại:</b> Bấm vào các câu bên dưới theo đúng thứ tự xuất hiện trong đoạn hội thoại trên.</p>
+      <p style="margin-top:14px;"><b>Sắp xếp lại hội thoại:</b> Bấm vào các câu bên dưới theo đúng thứ tự xuất hiện trong đoạn hội thoại trên. Trong lúc sắp xếp, có thể bấm vào bất kỳ câu nào đã chọn để đưa nó về ô chọn và đổi ý bất cứ lúc nào. Khi đã ưng ý, bấm "Kiểm tra thứ tự" — câu nào sai vị trí sẽ hiện màu đỏ, vẫn có thể bấm vào để đưa về ô chọn rồi chọn lại, không cần làm lại từ đầu.</p>
       <div class="order-pool" id="order-pool"></div>
       <div class="order-answer" id="order-answer"></div>
       <div>
@@ -788,6 +791,7 @@ function toggleDialogue(){
 function buildOrderGame(){
   const pool = document.getElementById('order-pool');
   pool.innerHTML = '';
+  orderPicked = new Array(dialogueOrder.length).fill(null);
   const shuffled = shuffle(dialogueOrder.map((t,i)=>i));
   shuffled.forEach(idx=>{
     const btn = document.createElement('button');
@@ -796,8 +800,10 @@ function buildOrderGame(){
     btn.textContent = dialogueOrder[idx];
     btn.addEventListener('click', ()=>{
       if(btn.classList.contains('picked')) return;
+      const emptyPos = orderPicked.indexOf(null);
+      if(emptyPos === -1) return;
+      orderPicked[emptyPos] = idx;
       btn.classList.add('picked');
-      orderPicked.push(idx);
       renderOrderAnswer();
     });
     pool.appendChild(btn);
@@ -811,14 +817,34 @@ function renderOrderAnswer(){
   ans.innerHTML = '';
   orderPicked.forEach((idx,pos)=>{
     const chip = document.createElement('span');
-    chip.className = 'chip';
-    chip.textContent = (pos+1)+'. '+dialogueOrder[idx];
+    if(idx === null){
+      chip.className = 'chip empty';
+      chip.textContent = (pos+1)+'. ...';
+    } else {
+      chip.className = 'chip';
+      chip.textContent = (pos+1)+'. '+dialogueOrder[idx];
+      chip.dataset.idx = idx;
+      chip.title = 'Bấm để đưa câu này về ô chọn — có thể đổi ý bất cứ lúc nào trước khi bấm "Kiểm tra thứ tự".';
+      chip.addEventListener('click', ()=>{
+        returnToPool(pos);
+      });
+    }
     ans.appendChild(chip);
   });
 }
+function returnToPool(pos){
+  const idx = orderPicked[pos];
+  if(idx === null || idx === undefined) return;
+  orderPicked[pos] = null;
+  const poolBtn = document.querySelector('#order-pool .order-item[data-idx="'+idx+'"]');
+  if(poolBtn) poolBtn.classList.remove('picked');
+  renderOrderAnswer();
+  document.getElementById('fb-order').className = 'feedback';
+  document.getElementById('fb-order').textContent = 'Đã đưa câu về ô chọn — hãy bấm 1 câu khác cho vị trí này.';
+}
 function checkOrder(){
   const fb = document.getElementById('fb-order');
-  if(orderPicked.length < dialogueOrder.length){
+  if(orderPicked.some(idx=>idx===null)){
     fb.className='feedback wrong'; fb.textContent='Hãy chọn đủ '+dialogueOrder.length+' câu trước khi kiểm tra.'; return;
   }
   const chips = document.querySelectorAll('#order-answer .chip');
@@ -829,9 +855,9 @@ function checkOrder(){
     if(!ok) allOk = false;
   });
   fb.className = allOk? 'feedback correct':'feedback wrong';
-  fb.textContent = allOk? '✔ Chính xác! Đúng thứ tự đoạn hội thoại.' : '✘ Còn vài câu chưa đúng vị trí (màu đỏ). Bấm "Đặt lại" để thử lại.';
+  fb.textContent = allOk? '✔ Chính xác! Đúng thứ tự đoạn hội thoại.' : '✘ Câu sai vị trí có màu đỏ — bấm vào (các) câu đó để đưa về ô chọn rồi chọn câu khác.';
 }
-function resetOrder(){ orderPicked = []; buildOrderGame(); }
+function resetOrder(){ buildOrderGame(); }
 
 /* ============ HOẠT ĐỘNG 2 — GHÉP CẶP DỊCH (tình huống ↔ câu tiếng Trung) ============ */
 const dichPairs = [
