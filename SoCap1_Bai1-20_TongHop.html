@@ -137,7 +137,8 @@ const lessons = [
   {n:17, file:"bai17_sc1.html", zh:"我们进去看看吧"},
   {n:18, file:"bai18_sc1.html", zh:"展厅设计得不错"},
   {n:19, file:"bai19_sc1.html", zh:"上个月的账结清了吗"},
-  {n:20, file:"bai20_sc1.html", zh:"这批货月底交得了"}
+  {n:20, file:"bai20_sc1.html", zh:"这批货月底交得了"},
+  {n:"复", file:"ontaptuvung_sc1.html", zh:"生词总复习", sub:"Ôn tập tổng hợp", review:true}
 ];
 
 const listEl = document.getElementById('lessonList');
@@ -149,6 +150,13 @@ const menuToggle = document.getElementById('menuToggle');
 function render(){
   listEl.innerHTML = '';
   lessons.forEach(function(l){
+    if(l.review){
+      const divider = document.createElement('div');
+      divider.className = 'sidebar-title';
+      divider.style.marginTop = '8px';
+      divider.textContent = 'Ôn tập tổng hợp';
+      listEl.appendChild(divider);
+    }
     const btn = document.createElement('button');
     btn.className = 'lesson-btn' + (l.file === currentFile() ? ' active' : '');
     btn.dataset.file = l.file;
@@ -156,7 +164,7 @@ function render(){
       '<span class="lesson-num">' + l.n + '</span>' +
       '<span class="lesson-text">' +
         '<span class="lesson-zh">' + l.zh + '</span>' +
-        '<span class="lesson-sub">Bài ' + l.n + '</span>' +
+        '<span class="lesson-sub">' + (l.sub || ('Bài ' + l.n)) + '</span>' +
       '</span>';
     btn.addEventListener('click', function(){ selectLesson(l.file); });
     listEl.appendChild(btn);
