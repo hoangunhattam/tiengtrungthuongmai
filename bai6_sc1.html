@@ -972,13 +972,13 @@ const quizData = [
   {points:5, type:'mc', q:'Đúng/Sai: "好" cũng có thể đặt trước tính từ với ý nghĩa nhấn mạnh tương tự "真" (VD: 好漂亮 = 非常漂亮).', opts:['Đúng','Sai'], ans:0, exp:'Đúng — 好漂亮 nghĩa là rất/thật đẹp, tương đương 非常漂亮.'},
   {points:5, type:'mc', q:'Đúng/Sai: khi trả lời câu hỏi "这是你的吗？", bắt buộc phải nói đầy đủ "这是我的" chứ không được lược bỏ danh từ.', opts:['Đúng','Sai'], ans:1, exp:'Sai — có thể lược bỏ danh từ trung tâm khi ngữ cảnh đã rõ, chỉ cần trả lời rút gọn "对，是你的。"'},
   {points:5, type:'text', q:'Điền 1 từ: 我们的办公室 ___ 大！', ans:['真'], exp:'我们的办公室真大！= Văn phòng của chúng tôi thật rộng!'},
-  {points:5, type:'text', q:'Điền 1 từ: 这是你的笔记本电脑，真 ___ ！', ans:['时尚'], exp:'这是你的笔记本电脑，真时尚！= Đây là máy tính xách tay của bạn, thật thời trang!'},
+  {points:5, type:'text', q:'Điền 1 từ: 这是你的笔记本电脑，真 ___ ！', ans:['时尚','漂亮'], exp:'这是你的笔记本电脑，真时尚！(hoặc 真漂亮！cũng được chấp nhận) = Đây là máy tính xách tay của bạn, thật thời trang! (hoặc: thật đẹp!)'},
   {points:5, type:'text', q:'Điền 1 từ: 那是公司 ___ 会议室，真漂亮！', ans:['的'], exp:'那是公司的会议室，真漂亮！= Đó là phòng họp của công ty, thật đẹp!'},
   {points:6, type:'text', q:'Sắp xếp thành câu: 时尚 / 真 / 笔记本电脑', ans:['笔记本电脑真时尚！','笔记本电脑真时尚'], exp:'笔记本电脑真时尚！= Máy tính xách tay thật thời trang!'},
-  {points:6, type:'text', q:'Sắp xếp thành câu: 你！/ 欢迎 / 我们公司 / 真棒！', ans:['欢迎你！我们公司真棒！'], exp:'欢迎你！我们公司真棒！= Chào mừng bạn! Công ty chúng tôi thật xuất sắc!'},
+  {points:6, type:'text', q:'Sắp xếp thành câu: 欢迎 / 你 / 你 / 真棒 / 我们公司', ans:['你真棒！我们公司欢迎你！'], exp:'你真棒！我们公司欢迎你！= Bạn thật xuất sắc! Công ty chúng tôi chào đón bạn!'},
   {points:6, type:'mc', q:'Có 一卡通 thì theo 课文4 bạn có thể làm những gì?', opts:['Chỉ ra vào công ty','Ra vào công ty, dùng bữa và tập luyện tại công ty','Chỉ dùng bữa','Chỉ tập gym'], ans:1, exp:'有一卡通，你可以出入公司，在公司就餐、健身。'},
-  {points:6, type:'text', q:'Sắp xếp thành câu: 我的 / 这 / 名片，/ 是 / 你的 / 是 / 这 / 钥匙。', ans:['这是我的名片，这是你的钥匙。'], exp:'这是我的名片，这是你的钥匙。= Đây là danh thiếp của tôi, đây là chìa khóa của bạn.'},
-  {points:7, type:'blank', template:'那是___的办公室。', q:'Tình huống: Bạn muốn nói đó là văn phòng của sếp. Điền phần còn thiếu vào câu:', ans:['老板'], exp:'那是老板的办公室。= Đó là văn phòng của sếp.'},
+  {points:6, type:'text', q:'Sắp xếp thành câu: 我的 / 这 / 名片，/ 是 / 你的 / 是 / 这 / 钥匙。', ans:['这是我的名片，这是你的钥匙。','这是你的钥匙，这是我的名片。','这是你的名片，这是我的钥匙。','这是我的钥匙，这是你的名片。'], exp:'这是我的名片，这是你的钥匙。= Đây là danh thiếp của tôi, đây là chìa khóa của bạn. (Chấp nhận đảo vế và/hoặc đổi vật sở hữu: 这是你的钥匙，这是我的名片。/ 这是你的名片，这是我的钥匙。/ 这是我的钥匙，这是你的名片。)'},
+  {points:7, type:'blank', template:'那是___的办公室。', q:'Tình huống: Bạn muốn nói đó là văn phòng của giám đốc. Điền phần còn thiếu vào câu:', ans:['经理'], exp:'那是经理的办公室。= Đó là văn phòng của giám đốc.'},
   {points:7, type:'blank', template:'欢迎你！这是你的___，你可以出入公司。', q:'Tình huống: Bạn đang chào đón nhân viên mới và đưa cho họ tấm thẻ giúp họ ra vào công ty. Điền phần còn thiếu vào câu:', ans:['一卡通'], exp:'欢迎你！这是你的一卡通，你可以出入公司。= Chào mừng bạn! Đây là thẻ đa năng của bạn, bạn có thể ra vào công ty.'}
 ];
 const quizMaxScore = quizData.reduce((s,q)=>s+q.points,0);
