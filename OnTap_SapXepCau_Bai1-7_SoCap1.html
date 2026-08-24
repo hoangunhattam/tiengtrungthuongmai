@@ -52,6 +52,17 @@
   }
   #reset-all-btn:hover{background:var(--green); color:#fff;}
 
+  .jump-group{display:flex; align-items:center; gap:6px; font-size:12.5px; color:var(--green-dark); font-weight:600;}
+  #jump-input{
+    width:56px; font-family:inherit; font-size:13px; padding:5px 8px; border:1px solid #cdeada;
+    border-radius:8px; text-align:center;
+  }
+  #jump-btn{
+    background:var(--green); border:none; color:#fff; font-size:12px; font-weight:700;
+    padding:6px 12px; border-radius:20px; cursor:pointer;
+  }
+  #jump-btn:hover{background:var(--green-dark);}
+
   main{max-width:640px; margin:0 auto; padding:24px 18px 40px;}
 
   .qcard{
@@ -140,13 +151,18 @@
 </header>
 
 <div class="guide">
-  <b>Cách làm:</b> Bấm lần lượt các mảnh câu (từ/cụm từ) theo đúng thứ tự để ghép thành câu — mỗi lần bấm mảnh sẽ "nhảy xuống" ô đáp án bên dưới. Nếu chọn nhầm, hãy bấm vào chính mảnh đó trong ô đáp án để đưa nó trở lại và chọn mảnh khác. Chọn đủ số mảnh, hệ thống <b>tự động kiểm tra</b> đúng/sai. Làm đúng câu hiện tại thì nút <b>"Câu sau ›"</b> mới mở; dùng <b>"‹ Câu trước"</b> để xem lại các câu đã làm.
+  Sắp xếp các câu sau
 </div>
 
 <div class="progress-bar">
   <div class="progress-inner">
     <span id="progress-text">Đã đúng: 0/70</span>
     <div class="progress-track"><div id="progress-fill"></div></div>
+    <div class="jump-group">
+      <label for="jump-input">Đến câu:</label>
+      <input type="number" id="jump-input" min="1" placeholder="1">
+      <button id="jump-btn" type="button" onclick="jumpToQuestion()">Đi</button>
+    </div>
     <button id="reset-all-btn" type="button" onclick="resetAll()">🗑 Làm lại toàn bộ</button>
   </div>
 </div>
@@ -250,15 +266,50 @@ function shuffle(arr){
 }
 
 /* ============ Trạng thái điều hướng ============ *
-   viewingIndex : câu đang xem (0-based)
-   unlockedCount: số câu đã "mở khoá" tính từ đầu — câu ở vị trí
-                  unlockedCount-1 là câu mới nhất được mở, có thể
-                  đã làm đúng hoặc đang chờ làm.
-   solved[]     : câu nào đã làm đúng.                              */
+   viewingIndex : câu đang xem (0-based) — có thể đi tới/lùi tự do,
+                  không bắt buộc làm đúng câu này mới sang câu khác
+                  (vì có thể nhiều học sinh/trình duyệt cùng dùng chung file).
+   solved[]     : câu nào đã làm đúng (trên trình duyệt này).        */
 let viewingIndex = 0;
-let unlockedCount = 1;
 let correctCount = 0;
 const solved = new Array(DATA.length).fill(false);
+
+/* ============ Lưu/khôi phục tiến độ (để thoát ra không mất) ============ */
+const STORAGE_KEY = 'ontap_sapxepcau_bai1_7_v1';
+
+function saveProgress(){
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      correctCount, solved, viewingIndex
+    }));
+  }catch(e){ /* trình duyệt chặn localStorage — bỏ qua, không ảnh hưởng bài làm */ }
+}
+
+function loadProgress(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return;
+    const data = JSON.parse(raw);
+    if(data && Array.isArray(data.solved) && data.solved.length === DATA.length){
+      correctCount = data.correctCount || 0;
+      for(let i=0;i<DATA.length;i++){ solved[i] = !!data.solved[i]; }
+      viewingIndex = Math.min(Math.max(data.viewingIndex || 0, 0), DATA.length - 1);
+    }
+  }catch(e){ /* dữ liệu lỗi/không đọc được — bắt đầu lại bình thường */ }
+}
+
+function jumpToQuestion(){
+  const input = document.getElementById('jump-input');
+  const n = parseInt(input.value, 10);
+  if(!n || n < 1 || n > DATA.length){
+    alert('Vui lòng nhập số câu từ 1 đến ' + DATA.length + '.');
+    return;
+  }
+  viewingIndex = n - 1;
+  renderCard();
+  saveProgress();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
 
 function updateProgress(){
   document.getElementById('progress-text').textContent = `Đã đúng: ${correctCount}/${DATA.length}`;
@@ -267,10 +318,9 @@ function updateProgress(){
 
 function updateNavButtons(){
   document.getElementById('prev-btn').disabled = (viewingIndex <= 0);
-  const canNext = viewingIndex < unlockedCount - 1;
   const nextBtn = document.getElementById('next-btn');
-  nextBtn.disabled = !canNext;
-  nextBtn.textContent = (viewingIndex === DATA.length - 1 && solved[viewingIndex]) ? '🎉 Đã xong!' : 'Câu sau ›';
+  nextBtn.disabled = (viewingIndex >= DATA.length - 1);
+  nextBtn.textContent = (viewingIndex === DATA.length - 1) ? '🎉 Câu cuối' : 'Câu sau ›';
 }
 
 /* ============ Dựng thẻ câu hỏi hiện tại ============ */
@@ -384,10 +434,8 @@ function renderCard(){
     if(built === target){
       solved[viewingIndex] = true;
       correctCount++;
-      if(unlockedCount < DATA.length){
-        unlockedCount++; // mở khoá câu tiếp theo (viewingIndex luôn là câu mới nhất khi đang làm)
-      }
       updateProgress();
+      saveProgress();
       renderCard(); // vẽ lại ở trạng thái đã đúng + cập nhật nút điều hướng
     } else {
       card.classList.add('wrong');
@@ -414,9 +462,10 @@ function renderCard(){
 }
 
 function goNext(){
-  if(viewingIndex < unlockedCount - 1){
+  if(viewingIndex < DATA.length - 1){
     viewingIndex++;
     renderCard();
+    saveProgress();
     window.scrollTo({top:0, behavior:'smooth'});
   }
 }
@@ -424,6 +473,7 @@ function goPrev(){
   if(viewingIndex > 0){
     viewingIndex--;
     renderCard();
+    saveProgress();
     window.scrollTo({top:0, behavior:'smooth'});
   }
 }
@@ -431,14 +481,15 @@ function goPrev(){
 function resetAll(){
   if(!confirm('Bạn có chắc muốn xóa toàn bộ tiến độ và làm lại từ đầu cả ' + DATA.length + ' câu không?')) return;
   viewingIndex = 0;
-  unlockedCount = 1;
   correctCount = 0;
   solved.fill(false);
   updateProgress();
+  saveProgress();
   renderCard();
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
+loadProgress();
 updateProgress();
 renderCard();
 </script>
