@@ -1019,14 +1019,14 @@ const quizData = [
   {points:5, type:'mc', q:'Đúng/Sai: Khi số phút đứng trước "分" là 1—9 (VD 8:05), KHÔNG cần thêm "零", có thể nói thẳng 八点五.', opts:['Đúng','Sai'], ans:1, exp:'Sai — phải thêm 零: 八点零五 (bā diǎn líng wǔ), không nói 八点五.'},
   {points:5, type:'mc', q:'Đúng/Sai: "一刻" có thể dùng để chỉ cả 15 phút và 45 phút.', opts:['Đúng','Sai'], ans:1, exp:'Sai — "一刻" chỉ dùng cho 15 phút (VD 8:15 = 八点一刻); không dùng cho 45 phút.'},
   {points:5, type:'text', q:'Điền 1 từ: 唐总，您十点有个___。', ans:['会议'], exp:'唐总，您十点有个会议。= Thưa Tổng Đường, ngài 10 giờ có một cuộc họp.'},
-  {points:5, type:'text', q:'Điền 1 từ: 现在四点___。(4:30)', ans:['半'], exp:'现在四点半。= Bây giờ là 4 giờ rưỡi.'},
+  {points:5, type:'text', q:'Điền 1 từ: 现在四点___。(4:30)', ans:['半','三十分','三十','30分','30'], exp:'现在四点半。= Bây giờ là 4 giờ rưỡi.'},
   {points:5, type:'text', q:'Điền 1 từ: 几___的飞机？', ans:['点'], exp:'几点的飞机？= Mấy giờ có chuyến bay?'},
-  {points:6, type:'text', q:'Sắp xếp thành câu: 会议 / 十点 / 您 / 有个', ans:['您十点有个会议。','您十点有个会议'], exp:'您十点有个会议。= Ngài 10 giờ có một cuộc họp.'},
+  {points:6, type:'text', q:'Sắp xếp thành câu: 会议 / 十点 / 您 / 有个', ans:['您十点有个会议。','您十点有个会议','十点您有个会议。','十点您有个会议'], exp:'您十点有个会议。= Ngài 10 giờ có một cuộc họp.'},
   {points:6, type:'text', q:'Sắp xếp thành câu: 飞机 / 几点 / 的', ans:['几点的飞机？','几点的飞机'], exp:'几点的飞机？= Mấy giờ có chuyến bay?'},
   {points:6, type:'mc', q:'Theo 课文4, công ty mấy giờ đi làm và mấy giờ tan làm?', opts:['Sáng 8 giờ đi làm, chiều 5 giờ tan làm','Sáng 9 giờ đi làm, chiều 5 giờ tan làm','Sáng 9 giờ đi làm, chiều 6 giờ tan làm','Sáng 8 giờ đi làm, chiều 6 giờ tan làm'], ans:1, exp:'上午九点上班，下午五点下班 = Sáng 9 giờ đi làm, chiều 5 giờ tan làm.'},
   {points:6, type:'text', q:'Sắp xếp thành câu: 参加 / 我 / 准时', ans:['我准时参加。','我准时参加'], exp:'我准时参加。= Tôi tham gia đúng giờ.'},
   {points:7, type:'blank', template:'好，大卫也___吧。', q:'Tình huống: Theo 课文1, Đường Vân Đạt đồng ý cho David cùng tham dự cuộc họp. Điền phần còn thiếu vào câu:', ans:['参加'], exp:'好，大卫也参加吧。= Được, David cũng tham gia luôn nhé.'},
-  {points:7, type:'blank', template:'公司上午___点上班。', q:'Tình huống: Theo 课文4, công ty bắt đầu làm việc lúc mấy giờ sáng? Điền số vào câu:', ans:['九'], exp:'公司上午九点上班。= Công ty đi làm lúc 9 giờ sáng.'}
+  {points:7, type:'blank', template:'公司上午___点上班。', q:'Tình huống: Theo 课文4, công ty bắt đầu làm việc lúc mấy giờ sáng? Điền số vào câu:', ans:['九','9'], exp:'公司上午九点上班。= Công ty đi làm lúc 9 giờ sáng.'}
 ];
 const quizMaxScore = quizData.reduce((s,q)=>s+q.points,0);
 const QUIZ_STORAGE_KEY = 'hnnt_bai8_wozhunshidao_quiz_v1';
