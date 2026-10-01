@@ -158,6 +158,71 @@
   @media print{ .ex-actions{display:none !important;} }
   @media (max-width:520px){ .fill-grid{grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px;} .fill-item{padding:7px 8px;} .fill-item input{width:46px;} }
 
+  /* ==== TAB 5: Bảng ghép vần Pinyin (toàn bộ đặt trong .pyc để không ảnh hưởng các tab khác) ==== */
+  .pyc, .pyc-pop{
+    --surface:#ffffff; --muted:#5c6b60; --green-soft:#eaf6ee; --gold-soft:#fdf3d9;
+    --band-a:#ffffff; --band-i:#f3f9f5; --band-v:#f3f9f5; --hi:#fff4cf;
+    --pshadow:0 10px 30px rgba(31,127,62,.16);
+    --t1:#1f7d3a; --t2:#1a6aa0; --t3:#b7791f; --t4:#b8322a;
+    --f-cn:"Noto Sans SC","PingFang SC","Source Han Sans SC","Microsoft YaHei",sans-serif;
+    font-size:15px;
+  }
+  .pyc .pyc-tools{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:4px 0 10px;}
+  .pyc .search{display:flex; align-items:center; gap:6px; background:var(--surface); border:1.5px solid var(--line); border-radius:10px; padding:6px 10px;}
+  .pyc .search input{border:0; outline:0; background:transparent; color:var(--ink); font:inherit; width:170px;}
+  .pyc .search:focus-within{border-color:var(--green);}
+  .pyc .chip{font:inherit; font-size:13px; border:1.5px solid var(--line); background:var(--surface); color:var(--ink); border-radius:999px; padding:6px 12px; cursor:pointer;}
+  .pyc .chip[aria-pressed="true"]{background:var(--green); border-color:var(--green); color:#fff;}
+  .pyc .chip:focus-visible, .pyc button:focus-visible, .pyc td.s:focus-visible, .pyc th:focus-visible{outline:2px solid var(--gold); outline-offset:2px;}
+  .pyc .legend{display:flex; flex-wrap:wrap; gap:6px 16px; font-size:13px; color:var(--muted); align-items:center; margin-bottom:10px;}
+  .pyc .legend b{font-weight:700; font-size:1.1em;}
+  .tone1{color:var(--t1);} .tone2{color:var(--t2);} .tone3{color:var(--t3);} .tone4{color:var(--t4);}
+  .pyc .notice{font-size:13px; background:var(--gold-soft); border-radius:8px; padding:8px 12px; margin-bottom:10px;}
+  .pyc .scroller{overflow:auto; max-height:calc(100vh - 170px); min-height:420px; border:1px solid var(--line); border-radius:12px; background:var(--surface);}
+  .pyc table{width:auto; border-collapse:separate; border-spacing:0; font-size:inherit; font-variant-numeric:tabular-nums;}
+  .pyc th, .pyc td{border:0; border-right:1px solid var(--line); border-bottom:1px solid var(--line); padding:0; text-align:center; vertical-align:middle; white-space:nowrap;}
+  .pyc tbody tr td{background:var(--band-a);}
+  .pyc thead th{position:sticky; background:var(--green); color:#fff; font-weight:600; z-index:2;}
+  .pyc thead tr.g th{top:0; height:28px; font-size:11px; letter-spacing:.06em; text-transform:uppercase; font-weight:500; background:var(--green-dark);}
+  .pyc thead tr.f th{top:28px; height:38px; font-size:15px; padding:0 6px; cursor:pointer;}
+  .pyc thead th.corner{left:0; z-index:4;}
+  .pyc tbody th{position:sticky; left:0; background:var(--green-soft); color:var(--green); font-size:15px; font-weight:700; min-width:44px; z-index:1; cursor:pointer;}
+  .pyc tbody tr.gs td, .pyc tbody tr.gs th{border-top:2px solid var(--green);}
+  .pyc td.s{font-size:15px; padding:0 7px; height:38px; cursor:pointer; min-width:40px; transition:background .12s;}
+  .pyc td.s:hover{background:var(--green-soft); color:var(--green); font-weight:600;}
+  .pyc td.e{min-width:34px;}
+  .pyc td.bi{background:var(--band-i);} .pyc td.bv{background:var(--band-v);}
+  .pyc th.gcut, .pyc td.gcut{border-left:2px solid var(--green);}
+  .pyc td.hl, .pyc th.hl{background:var(--hi) !important;}
+  .pyc td.found{background:var(--gold) !important; color:#fff; font-weight:700;}
+  .pyc td.active{outline:2px solid var(--green); outline-offset:-2px; background:var(--green-soft);}
+  .pyc tbody th small{display:block; font-size:10px; font-weight:500; color:var(--muted); letter-spacing:0;}
+  /* Popover chọn thanh (đặt ngoài .container, ở cuối body) */
+  .pyc-pop{position:absolute; z-index:60; background:var(--surface); border:1.5px solid var(--green); border-radius:14px; box-shadow:var(--pshadow); padding:12px; width:236px;}
+  .pyc-pop .ph{display:flex; align-items:baseline; justify-content:space-between; gap:8px; margin-bottom:8px;}
+  .pyc-pop .ph b{font-size:20px;}
+  .pyc-pop .ph span{font-size:12px; color:var(--muted);}
+  .pyc-pop .x{border:0; background:transparent; color:var(--muted); font-size:20px; cursor:pointer; line-height:1; padding:0 2px;}
+  .pyc-pop .tones{display:grid; grid-template-columns:1fr 1fr; gap:8px;}
+  .pyc-pop .tbtn{display:flex; flex-direction:column; align-items:center; gap:2px; border:1.5px solid var(--line); border-radius:10px; background:var(--surface); padding:8px 4px; cursor:pointer; font:inherit; color:var(--ink);}
+  .pyc-pop .tbtn .py{font-size:22px; font-weight:600; line-height:1.2;}
+  .pyc-pop .tbtn .hz{font-family:var(--f-cn); font-size:18px; color:var(--muted); min-height:26px;}
+  .pyc-pop .tbtn .tn{font-size:11px; color:var(--muted);}
+  .pyc-pop .tbtn:hover:not(:disabled){border-color:var(--green); background:var(--green-soft);}
+  .pyc-pop .tbtn.playing{border-color:var(--gold); background:var(--gold-soft);}
+  .pyc-pop .tbtn:disabled{opacity:.38; cursor:not-allowed;}
+  .pyc-pop.hidehz .tbtn .hz{visibility:hidden;}
+  .pyc-pop .all{margin-top:8px; width:100%; border:0; border-radius:10px; background:var(--green); color:#fff; font:inherit; font-weight:600; padding:9px; cursor:pointer;}
+  .pyc-pop .all:hover{background:var(--green-dark);}
+  .pyc-pop:focus-visible, .pyc-pop button:focus-visible{outline:2px solid var(--gold); outline-offset:2px;}
+  @media (max-width:640px){
+    .pyc-pop{position:fixed; left:0 !important; right:0; top:auto !important; bottom:0; width:auto; border-radius:16px 16px 0 0; padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));}
+    .pyc-pop .tones{grid-template-columns:repeat(4,1fr);}
+    .pyc .scroller{max-height:calc(100vh - 230px);}
+    .pyc .search input{width:120px;}
+  }
+  @media print{ .pyc-pop, .pyc .pyc-tools{display:none !important;} .pyc .scroller{max-height:none; overflow:visible;} }
+
 </style>
 </head>
 
@@ -182,6 +247,7 @@
   <button class="tab-btn" data-tab="tab2">② Phiên âm 2</button>
   <button class="tab-btn" data-tab="tab3">③ Phiên âm 3</button>
   <button class="tab-btn" data-tab="tab4">④ Quy tắc phiên âm khác</button>
+  <button class="tab-btn" data-tab="tab5">⑤ Bảng ghép vần</button>
 </nav>
 
 <div class="container">
@@ -666,11 +732,38 @@
 
 </section>
 
+<!-- ===================== TAB 5: BẢNG GHÉP VẦN ===================== -->
+<section class="panel" id="tab5">
+
+  <div class="intro-banner">📌 Bảng ghép vần Pinyin 汉语拼音拼读表: hàng ngang là <b>vận mẫu</b>, cột dọc là <b>thanh mẫu</b>. Nhấp vào một âm tiết để nghe đủ 4 thanh; nhấp vào thanh mẫu bên trái để nghe cách đọc thanh mẫu; nhấp vào tên vận mẫu trên cùng để tô sáng cả cột.</div>
+
+  <div class="card pyc">
+    <h2>⑤ Bảng ghép vần Pinyin <span class="zh">汉语拼音拼读表</span></h2>
+    <div class="sub">Gõ âm tiết vào ô tìm kiếm để nhảy đến ô cần tìm (ü có thể gõ là v, VD: lv, nü). Âm thanh ưu tiên file ghi âm người thật (cần kết nối mạng); khi không tải được sẽ tự chuyển sang giọng đọc máy.</div>
+
+    <div class="pyc-tools">
+      <label class="search" for="pyc-q"><span aria-hidden="true">🔍︎</span><input id="pyc-q" type="search" placeholder="Tìm âm: zhuang, lv…" autocomplete="off"></label>
+      <button class="chip" id="pyc-bHz" type="button" aria-pressed="true">Hiện chữ Hán mẫu</button>
+    </div>
+    <div class="legend">
+      <span><b class="tone1">ā</b> Thanh 1 – ngang cao</span>
+      <span><b class="tone2">á</b> Thanh 2 – đi lên</span>
+      <span><b class="tone3">ǎ</b> Thanh 3 – xuống rồi lên</span>
+      <span><b class="tone4">à</b> Thanh 4 – đi xuống</span>
+    </div>
+    <div class="notice" id="pyc-notice" hidden></div>
+    <div class="scroller" id="pyc-sc"><table id="pyc-tb"></table></div>
+  </div>
+
+</section>
+
 </div>
 
 <footer>
   Hoa Ngữ Nhất Tâm · Tài liệu Phiên âm Tiếng Trung — Sơ cấp 1 · Chỉ dùng cho mục đích giảng dạy
 </footer>
+
+<div class="pyc-pop" id="pyc-pop" hidden role="dialog" aria-label="Chọn thanh điệu"></div>
 
 <script>
 
@@ -850,6 +943,202 @@ function resetPy(n){
   document.getElementById(`px${n}-score`).style.display = 'none';
 }
 
+
+/* ============ TAB 5: BẢNG GHÉP VẦN PINYIN ============
+   Bọc trong IIFE để biến (zhVoice, DATA, say, tts...) không xung đột với script các tab trên.
+   Âm thanh: ưu tiên file ghi âm người thật (cần mạng), không tải được thì tự dùng giọng máy. */
+(function(){
+const DATA={"cols":["a","o","e","-i","-i₂","er","ai","ei","ao","ou","an","en","ang","eng","ong","i","ia","iao","ie","iu","ian","in","iang","ing","iong","u","ua","uo","uai","ui","uan","un","uang","ueng","ü","üe","üan","ün"],"rows":["","b","p","m","f","d","t","n","l","g","k","h","z","c","s","zh","ch","sh","r","j","q","x"],"grid":{"":["a","o","e",null,null,"er","ai",null,"ao","ou","an","en","ang","eng",null,"yi","ya","yao","ye","you","yan","yin","yang","ying","yong","wu","wa","wo","wai","wei","wan","wen","wang","weng","yu","yue","yuan","yun"],"b":["ba","bo",null,null,null,null,"bai","bei","bao",null,"ban","ben","bang","beng",null,"bi",null,"biao","bie",null,"bian","bin",null,"bing",null,"bu",null,null,null,null,null,null,null,null,null,null,null,null],"p":["pa","po",null,null,null,null,"pai","pei","pao","pou","pan","pen","pang","peng",null,"pi",null,"piao","pie",null,"pian","pin",null,"ping",null,"pu",null,null,null,null,null,null,null,null,null,null,null,null],"m":["ma","mo","me",null,null,null,"mai","mei","mao","mou","man","men","mang","meng",null,"mi",null,"miao","mie","miu","mian","min",null,"ming",null,"mu",null,null,null,null,null,null,null,null,null,null,null,null],"f":["fa","fo",null,null,null,null,null,"fei",null,"fou","fan","fen","fang","feng",null,null,null,null,null,null,null,null,null,null,null,"fu",null,null,null,null,null,null,null,null,null,null,null,null],"d":["da",null,"de",null,null,null,"dai","dei","dao","dou","dan","den","dang","deng","dong","di",null,"diao","die","diu","dian",null,null,"ding",null,"du",null,"duo",null,"dui","duan","dun",null,null,null,null,null,null],"t":["ta",null,"te",null,null,null,"tai",null,"tao","tou","tan",null,"tang","teng","tong","ti",null,"tiao","tie",null,"tian",null,null,"ting",null,"tu",null,"tuo",null,"tui","tuan","tun",null,null,null,null,null,null],"n":["na",null,"ne",null,null,null,"nai","nei","nao","nou","nan","nen","nang","neng","nong","ni",null,"niao","nie","niu","nian","nin","niang","ning",null,"nu",null,"nuo",null,null,"nuan",null,null,null,"nü","nüe",null,null],"l":["la",null,"le",null,null,null,"lai","lei","lao","lou","lan",null,"lang","leng","long","li","lia","liao","lie","liu","lian","lin","liang","ling",null,"lu",null,"luo",null,null,"luan","lun",null,null,"lü","lüe",null,null],"g":["ga",null,"ge",null,null,null,"gai","gei","gao","gou","gan","gen","gang","geng","gong",null,null,null,null,null,null,null,null,null,null,"gu","gua","guo","guai","gui","guan","gun","guang",null,null,null,null,null],"k":["ka",null,"ke",null,null,null,"kai","kei","kao","kou","kan","ken","kang","keng","kong",null,null,null,null,null,null,null,null,null,null,"ku","kua","kuo","kuai","kui","kuan","kun","kuang",null,null,null,null,null],"h":["ha",null,"he",null,null,null,"hai","hei","hao","hou","han","hen","hang","heng","hong",null,null,null,null,null,null,null,null,null,null,"hu","hua","huo","huai","hui","huan","hun","huang",null,null,null,null,null],"z":["za",null,"ze","zi",null,null,"zai","zei","zao","zou","zan","zen","zang","zeng","zong",null,null,null,null,null,null,null,null,null,null,"zu",null,"zuo",null,"zui","zuan","zun",null,null,null,null,null,null],"c":["ca",null,"ce","ci",null,null,"cai",null,"cao","cou","can","cen","cang","ceng","cong",null,null,null,null,null,null,null,null,null,null,"cu",null,"cuo",null,"cui","cuan","cun",null,null,null,null,null,null],"s":["sa",null,"se","si",null,null,"sai",null,"sao","sou","san","sen","sang","seng","song",null,null,null,null,null,null,null,null,null,null,"su",null,"suo",null,"sui","suan","sun",null,null,null,null,null,null],"zh":["zha",null,"zhe",null,"zhi",null,"zhai","zhei","zhao","zhou","zhan","zhen","zhang","zheng","zhong",null,null,null,null,null,null,null,null,null,null,"zhu","zhua","zhuo","zhuai","zhui","zhuan","zhun","zhuang",null,null,null,null,null],"ch":["cha",null,"che",null,"chi",null,"chai",null,"chao","chou","chan","chen","chang","cheng","chong",null,null,null,null,null,null,null,null,null,null,"chu","chua","chuo","chuai","chui","chuan","chun","chuang",null,null,null,null,null],"sh":["sha",null,"she",null,"shi",null,"shai","shei","shao","shou","shan","shen","shang","sheng",null,null,null,null,null,null,null,null,null,null,null,"shu","shua","shuo","shuai","shui","shuan","shun","shuang",null,null,null,null,null],"r":[null,null,"re",null,"ri",null,null,null,"rao","rou","ran","ren","rang","reng","rong",null,null,null,null,null,null,null,null,null,null,"ru","rua","ruo",null,"rui","ruan","run",null,null,null,null,null,null],"j":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"ji","jia","jiao","jie","jiu","jian","jin","jiang","jing","jiong",null,null,null,null,null,null,null,null,null,"ju","jue","juan","jun"],"q":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"qi","qia","qiao","qie","qiu","qian","qin","qiang","qing","qiong",null,null,null,null,null,null,null,null,null,"qu","que","quan","qun"],"x":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"xi","xia","xiao","xie","xiu","xian","xin","xiang","xing","xiong",null,null,null,null,null,null,null,null,null,"xu","xue","xuan","xun"]},"chars":{"a":["阿锕","嗄","",""],"ai":["哎哀埃","皑癌捱","矮蔼霭","爱碍瑷"],"an":["安氨鞍","","铵俺揞","按案暗"],"ang":["肮骯","昂卬","","盎醠"],"ao":["凹爊梎","鳌嗷螯","袄拗媪","奥鏊澳"],"ba":["八","拔","把靶钯","爸坝灞"],"bai":["掰擘","白","摆百柏","败拜稗"],"ban":["班颁斑","","板版阪","办半瓣"],"bang":["帮邦浜","","绑榜膀","镑棒谤"],"bao":["包龅孢","雹薄窇","保宝饱","报豹鲍"],"bei":["杯碑悲","","北","被备辈"],"ben":["锛奔贲","","本苯畚","笨坌倴"],"beng":["崩嘣绷","甭","琫繃埄","蹦迸甏"],"bi":["逼楅鵖","鼻荸嬶","比笔彼","必毕闭"],"bian":["编边鞭","","匾贬窆","变便遍"],"biao":["标镖彪","","表婊裱","鳔俵鰾"],"bie":["憋鳖","别蹩別","瘪",""],"bin":["宾滨斌","","","鬓殡摈"],"bing":["兵冰冫","","柄饼禀","并病併"],"bo":["拨玻钵","博勃搏","跛簸箥","檗蘗"],"bu":["逋晡庯","醭","补捕哺","不"],"ca":["擦嚓","","礤",""],"cai":["猜偲","才财材","彩采睬","菜蔡棌"],"can":["参餐骖","残惭蚕","惨黪憯","灿粲璨"],"cang":["舱仓苍","藏鑶欌","",""],"cao":["操糙","曹嘈艚","草艹懆",""],"ce":["","","","策测侧"],"cen":["嵾","岑涔梣","",""],"ceng":["噌","层曾嶒","","蹭"],"cha":["插锸叉","茶查槎","镲衩蹅","差姹汊"],"chai":["钗拆","豺柴侪","茝","虿"],"chan":["搀觇梴","缠蝉蟾","产铲阐","颤羼忏"],"chang":["阊娼昌","常肠尝","场厂氅","唱畅怅"],"chao":["钞超抄","潮朝巢","炒吵煼","耖仯"],"che":["车砗伡","","扯偖撦","撤彻掣"],"chen":["琛嗔郴","陈臣沉","碜鍖硶","衬谶龀"],"cheng":["称撑蛏","成城程","骋逞悜","秤"],"chi":["吃嗤痴","持迟驰","齿耻侈","赤翅炽"],"chong":["充冲忡","崇虫崈","宠","铳銃"],"chou":["抽瘳篘","筹酬绸","丑瞅杽","臭殠"],"chu":["出初樗","除厨橱","楚础储","处触矗"],"chua":["欻歘","","",""],"chuai":["揣搋","","","踹啜嘬"],"chuan":["川穿氚","船传椽","喘舛荈","钏串"],"chuang":["疮窗瘡","床幢牀","闯摤","创怆愴"],"chui":["炊吹","锤陲垂","",""],"chun":["春椿蝽","纯醇莼","蠢睶偆",""],"chuo":["戳踔逴","","","辍龊辶"],"ci":["疵呲齹","词辞磁","此泚","次赐刺"],"cong":["璁匆聪","从丛琮","",""],"cou":["","","","凑辏腠"],"cu":["粗","殂徂","","蹙猝促"],"cuan":["蹿撺汆","櫕欑","","窜篡爨"],"cui":["催崔榱","","璀皠漼","翠脆悴"],"cun":["村皴竴","存拵","忖","寸吋"],"cuo":["磋蹉撮","鹾矬痤","脞","错锉措"],"da":["搭褡嗒","达鞑答","打","大亣眔"],"dai":["呆呔獃","","傣逮歹","代带戴"],"dan":["丹单耽","","胆赕掸","但蛋旦"],"dang":["当裆铛","","党谠挡","档荡宕"],"dao":["刀刂氘","捯","导岛捣","到道倒"],"de":["嘚","德","",""],"dei":["","","得",""],"den":["","","","扥"],"deng":["登灯噔","","等戥","瞪凳镫"],"di":["低滴羝","笛迪敌","底邸抵","第地帝"],"dian":["颠掂巅","","点碘典","电殿店"],"diao":["雕貂叼","","屌","吊调掉"],"die":["爹跌嗲","叠牒谍","","眰"],"ding":["叮丁玎","","顶鼎鐤","定订锭"],"diu":["丢铥丟","","",""],"dong":["东冬咚","","懂董蕫","动冻洞"],"dou":["都兜篼","","抖陡蚪","豆斗窦"],"du":["督嘟阇","独读毒","赌笃睹","度渡妒"],"duan":["端耑","","短","段断缎"],"dui":["堆塠垖","","頧","对队怼"],"dun":["墩吨礅","","趸盹","钝顿砘"],"duo":["多咄裰","夺铎踱","躲朵缍","舵跺剁"],"e":["屙婀妸","俄额娥","噁","鄂饿鳄"],"en":["恩蒽煾","","峎","摁"],"eng":["鞥","","",""],"er":["","儿","尔饵耳","二贰弍"],"fa":["发彂發","罚伐乏","法鍅","珐琺髮"],"fan":["翻幡番","凡烦钒","反返仮","饭范犯"],"fang":["方芳钫","防房肪","访纺舫","放"],"fei":["飞非绯","腓淝肥","斐诽榧","费废吠"],"fen":["分纷芬","坟焚鼢","粉黺","愤粪瀵"],"feng":["风峰丰","逢冯綘","讽唪諷","奉凤缝"],"fo":["","佛","",""],"fou":["","紑","否缶殕",""],"fu":["肤夫敷","俘芙浮","府抚辅","复负富"],"ga":["伽嘎呷","钆噶","尕","尬魀"],"gai":["该垓赅","","改忋","丐钙盖"],"gan":["肝尴苷","","敢感赶","干赣绀"],"gang":["刚纲冈","","港岗崗","筻戆焹"],"gao":["高糕篙","","稿搞缟","诰告锆"],"ge":["哥歌割","阁格革","舸哿","个各铬"],"gei":["","","给給",""],"gen":["跟根","哏","艮","亘茛揯"],"geng":["耕庚赓","","梗绠耿","更暅"],"gong":["工公功","","汞巩拱","共贡"],"gou":["沟钩鞲","","狗岣笱","构够购"],"gu":["姑孤箍","","股鼓古","故顾固"],"gua":["瓜刮鸹","","寡剐叧","挂卦褂"],"guai":["乖掴摑","","拐枴","怪叏恠"],"guan":["关官观","","管馆莞","惯贯罐"],"guang":["光胱咣","","广犷廣","逛俇撗"],"gui":["规归瑰","","鬼轨诡","贵跪桂"],"gun":["","","滚衮绲","棍璭"],"guo":["锅郭崞","国虢帼","果裹椁","过過"],"ha":["哈铪","蛤","奤",""],"hai":["嗨咍","还孩骸","海醢","骇害氦"],"han":["憨鼾顸","韩寒函","喊罕阚","汉旱翰"],"hang":["夯","航绗杭","","沆"],"hao":["薅蒿","毫豪壕","好","号灏昊"],"he":["喝嗬诃","和河合","","贺鹤褐"],"hei":["黑嘿潶","","",""],"hen":["","痕拫","很狠佷","恨"],"heng":["哼亨悙","衡恒横","","堼"],"hong":["轰烘薨","洪鸿红","哄","讧闀澒"],"hou":["齁","猴喉骺","吼犼","后候厚"],"hu":["忽乎呼","湖胡狐","虎琥唬","护户互"],"hua":["花哗婲","华滑猾","","话画化"],"huai":["","淮槐怀","","坏壊咶"],"huan":["欢獾驩","环桓洹","缓緩","换患浣"],"huang":["肓慌荒","黄皇煌","谎幌晃","皝滉曂"],"hui":["挥灰恢","回蛔茴","悔毁毀","会汇绘"],"hun":["婚阍昏","魂浑馄","","混诨溷"],"huo":["锪耠豁","活佸秮","火夥伙","或获货"],"ji":["基击机","及即级","挤几己","记计际"],"jia":["加家嘉","颊荚郏","甲钾假","架驾嫁"],"jian":["兼间坚","","减简检","建剑见"],"jiang":["江将姜","","讲奖蒋","匠酱降"],"jiao":["交椒郊","","搅脚绞","叫较教"],"jie":["街皆阶","截结劫","解姐檞","界届借"],"jin":["今金津","","紧锦仅","进近晋"],"jing":["京经荆","","警景阱","竟境静"],"jiong":["扃冂埛","","炯迥窘",""],"jiu":["揪纠鸠","","酒久九","就旧舅"],"ju":["居琚驹","局菊橘","举矩榘","具距剧"],"juan":["涓娟鹃","","卷锩埍","绢倦眷"],"jue":["噘撅撧","决绝觉","",""],"jun":["军君均","","","郡峻骏"],"ka":["喀咖咔","","卡胩垰",""],"kai":["开锎揩","","凯慨恺","忾烗鎎"],"kan":["刊勘龛","","砍侃莰","看瞰矙"],"kang":["糠慷康","扛","","抗钪炕"],"kao":["尻","","考烤拷","靠铐犒"],"ke":["颗科珂","壳咳","可岢渴","克课客"],"kei":["剋","","",""],"ken":["","","肯啃恳","裉褃掯"],"keng":["铿坑吭","","",""],"kong":["空崆箜","","孔恐","控鞚"],"kou":["抠芤眍","","口","扣叩寇"],"ku":["哭窟骷","","苦","库酷裤"],"kua":["夸姱","","垮侉咵","跨挎胯"],"kuai":["","","蒯","快块筷"],"kuan":["宽髋寬","","款歀窾",""],"kuang":["筐诓框","诳狂狅","夼儣懭","况矿旷"],"kui":["盔窥亏","夔葵揆","跬煃","愧馈愦"],"kun":["坤髡醌","","阃悃捆","困睏"],"kuo":["","","","扩阔廓"],"la":["拉垃邋","旯剌砬","喇","辣腊瘌"],"lai":["","来莱涞","","赖睐癞"],"lan":["","兰拦栏","览懒揽","烂滥爛"],"lang":["啷","廊狼郎","朗烺樃","浪蒗莨"],"lao":["捞粩","劳崂醪","老铑栳","涝耢烙"],"le":["肋","","","乐"],"lei":["勒","雷镭缧","垒蕾磊","类泪累"],"leng":["","塄棱楞","冷","愣堎踜"],"li":["哩","黎离梨","理李里","力利历"],"lia":["","","俩",""],"lian":["","连联莲","脸敛琏","练炼链"],"liang":["","粮梁椋","两魉蜽","量辆谅"],"liao":["撩蹽","辽疗寮","蓼钌叾","料撂镣"],"lie":["","","咧","烈列劣"],"lin":["拎","林临邻","凛廪檩","赁躏吝"],"ling":["","灵陵龄","领岭領","另令呤"],"liu":["熘溜蹓","流刘瘤","柳绺锍","六鹨塯"],"long":["","龙聋胧","拢垄陇","梇"],"lou":["","楼娄髅","篓嵝搂","镂陋瘘"],"lu":["撸噜","炉胪卢","鲁虏掳","路录禄"],"luan":["","鸾娈滦","卵","乱亂"],"lun":["抡","轮伦沦","耣","论"],"luo":["啰","逻螺锣","裸瘰倮","洛落骆"],"lü":["","驴闾榈","旅屡吕","律率氯"],"lüe":["","","","略锊掠"],"ma":["妈","麻","马","骂"],"mai":["","埋霾","买荬鷶","卖麦迈"],"man":["颟嫚","瞒蛮馒","满螨鏋","漫曼幔"],"mang":["牤","忙盲邙","漭莽蟒",""],"mao":["猫","矛茅毛","卯峁铆","贸帽茂"],"me":["嚒","","",""],"mei":["","没枚煤","每美浼","妹媚魅"],"men":["椚","门扪钔","","焖懑闷"],"meng":["擝","虻蒙檬","猛锰蠓","梦孟夢"],"mi":["眯咪瞇","弥麋醚","米弭芈","密觅蜜"],"mian":["","棉绵宀","沔缅勉","面靣麵"],"miao":["喵","苗瞄鹋","秒渺淼","庙妙"],"mie":["咩乜吀","","","灭蔑篾"],"min":["","民岷缗","敏闽抿",""],"ming":["","名明鸣","酩姳佲","命椧"],"miu":["","","","谬"],"mo":["摸","魔膜谟","抹懡","默漠沫"],"mou":["哞","谋鍪眸","某",""],"mu":["","毪","亩姆牡","目木墓"],"na":["","拿镎鎿","哪乸","那纳钠"],"nai":["","腉熋","奶氖乃","奈鼐萘"],"nan":["囡","男南难","赧腩蝻","婻"],"nang":["囔","囊馕乪","曩攮","齉"],"nao":["孬","挠铙猱","脑恼瑙","闹淖臑"],"ne":["","","","讷"],"nei":["","","馁","内內"],"nen":["","","","嫩恁嫰"],"neng":["","能","",""],"ni":["妮","霓泥尼","你","逆腻睨"],"nian":["拈蔫","年黏鲇","辇碾撵","念廿埝"],"niang":["","娘嬢孃","","酿"],"niao":["","","袅鸟嬲","脲尿"],"nie":["捏","","","镍涅孽"],"nin":["","您","拰",""],"ning":["","凝宁咛","","佞泞"],"niu":["妞","牛","纽钮忸",""],"nong":["","农浓脓","","弄癑"],"nou":["","","啂","耨鐞槈"],"nu":["","奴孥驽","努弩胬","怒傉"],"nuan":["","","暖煖",""],"nuo":["","挪傩","","诺糯懦"],"nü":["","","女钕籹","衄恧朒"],"nüe":["","","","虐疟硸"],"o":["噢喔","哦","",""],"ou":["欧殴鸥","","藕偶耦","怄"],"pa":["啪趴葩","爬琶筢","","怕帕"],"pai":["拍","牌排徘","","派蒎湃"],"pan":["攀潘畨","盘磐蹒","","判叛畔"],"pang":["乓滂雱","庞旁彷","耪嗙","胖"],"pao":["抛脬拋","庖狍咆","跑","炮疱泡"],"pei":["胚呸醅","陪赔培","","配佩沛"],"pen":["喷噴","盆湓瓫","呠",""],"peng":["烹怦嘭","朋棚鹏","捧剻","碰"],"pi":["披批丕","皮疲毗","匹癖庀","屁僻譬"],"pian":["偏篇翩","骈胼蹁","","骗片騗"],"piao":["飘螵漂","瓢嫖薸","瞟殍顠","票嘌僄"],"pie":["氕瞥撇","","苤","嫳"],"pin":["拼姘","频贫嫔","品榀","牝聘"],"ping":["乒俜娉","凭平评","",""],"po":["坡泼钋","婆鄱皤","颇叵笸","破珀粕"],"pou":["剖","裒掊抔","咅婄",""],"pu":["噗扑攵","濮璞匍","普谱浦","铺瀑曝"],"qi":["期欺七","其骑旗","起企启","器气弃"],"qia":["掐葜","拤","","恰洽髂"],"qian":["千迁签","钱前潜","谴缱浅","欠歉堑"],"qiang":["枪羌锵","墙强蔷","抢羟襁","炝唴"],"qiao":["敲跷锹","桥瞧侨","巧愀","撬窍峭"],"qie":["","癿","且","妾窃怯"],"qin":["亲钦衾","秦琴擒","寝锓笉","沁揿吣"],"qing":["轻清倾","情晴擎","请顷苘","庆罄箐"],"qiong":["芎","穷琼邛","",""],"qiu":["秋丘邱","求球裘","糗",""],"qu":["区趋驱","衢劬蕖","取龋娶","去阒趣"],"quan":["圈悛棬","全权拳","犬绻畎","劝券"],"que":["缺阙","瘸","","却确鹊"],"qun":["逡夋囷","群裙羣","",""],"ran":["","然燃髯","染苒冉",""],"rang":["","瓤禳穰","壤嚷攘","让"],"rao":["","饶桡荛","扰","绕"],"re":["","","惹","热熱"],"ren":["","人仁壬","忍稔荏","认任刃"],"reng":["扔","仍礽","",""],"ri":["","","","日鈤驲"],"rong":["茸","荣融溶","冗傇坈",""],"rou":["","柔揉鞣","楺","肉"],"ru":["","如儒孺","乳汝辱","入缛蓐"],"rua":["","挼","",""],"ruan":["","壖","软阮朊",""],"rui":["","蕤桵緌","蕊","瑞睿锐"],"run":["","","","润闰潤"],"ruo":["","","","弱若偌"],"sa":["仨撒挲","","洒潵靸","萨卅飒"],"sai":["腮鳃塞","","","赛簺僿"],"san":["三叁毵","","伞馓糁","散俕帴"],"sang":["桑","","嗓搡颡","丧"],"sao":["骚缫鳋","","嫂扫","瘙埽髞"],"se":["","","","色瑟涩"],"sen":["森槮","","",""],"seng":["僧","","",""],"sha":["杀砂纱","啥","傻儍","霎厦唼"],"shai":["筛酾簛","","","晒"],"shan":["山珊衫","","闪陕炶","善擅膳"],"shang":["商伤熵","","赏晌垧","上尚绱"],"shao":["烧稍筲","韶苕勺","少","绍邵哨"],"she":["奢畲赊","蛇佘舌","舍捨","设社摄"],"shei":["","谁","",""],"shen":["深伸身","神什","审婶哂","甚肾渗"],"sheng":["生升声","绳","省眚偗","剩胜圣"],"shi":["师诗尸","时实十","使史始","是"],"shou":["收収","","手首守","授受兽"],"shu":["书输叔","赎熟孰","属蜀署","树述数"],"shua":["唰刷","","耍","誜"],"shuai":["摔衰","","甩","帅蟀"],"shuan":["闩拴栓","","","涮"],"shuang":["双霜孀","","爽塽樉",""],"shui":["","谁誰","水","睡税涗"],"shun":["","","吮","顺瞬舜"],"shuo":["说說","","","硕朔烁"],"si":["丝私司","","死","四祀嗣"],"song":["松嵩淞","","耸怂竦","送宋颂"],"sou":["艘飕搜","","薮嗾瞍","嗽"],"su":["苏酥稣","俗","","素速诉"],"suan":["酸狻痠","","匴","算蒜笇"],"sui":["虽濉睢","随绥隋","髓","岁碎穗"],"sun":["孙飧狲","","损隼笋",""],"suo":["缩桫娑","","所索锁",""],"ta":["他她它","","鳎獭塔","榻蹋挞"],"tai":["胎","台抬薹","","态太泰"],"tan":["滩贪摊","谈坛痰","坦毯钽","碳炭叹"],"tang":["汤羰铴","唐堂糖","躺傥倘","烫趟摥"],"tao":["涛韬绦","逃淘萄","讨","套"],"te":["","","","特铽忒"],"teng":["熥","疼腾藤","",""],"ti":["锑踢梯","题提啼","体軆體","替剃惕"],"tian":["天添","田甜恬","腆忝殄","掭"],"tiao":["祧挑佻","条龆迢","窕脁朓","跳眺粜"],"tie":["贴萜帖","","铁鐡鐵","餮呫"],"ting":["听厅烃","停廷亭","艇挺梃",""],"tong":["通嗵炵","同铜佟","统桶捅","痛恸衕"],"tou":["偷媮","头投骰","钭敨","透綉"],"tu":["突秃凸","图徒途","土钍吐","堍兔"],"tuan":["湍貒","团抟鏄","疃","彖湪褖"],"tui":["推","颓穨尵","腿僓","退煺褪"],"tun":["暾吞呑","臀饨屯","氽",""],"tuo":["托脱拖","驼鸵鼍","妥椭庹","唾箨柝"],"wa":["挖娲蛙","娃","瓦佤砙","腽袜嗢"],"wai":["歪喎竵","","崴","外"],"wan":["湾弯剜","玩完丸","晚碗挽","万腕卍"],"wang":["汪尪尣","王亡亾","网往惘","望旺忘"],"wei":["微威危","围维韦","伟伪委","为未卫"],"wen":["温瘟鎾","文闻蚊","稳吻刎","问璺汶"],"weng":["翁嗡鹟","","蓊嵡暡","瓮蕹齆"],"wo":["窝蜗莴","","我","卧沃握"],"wu":["屋污呜","无吴芜","五武舞","物务误"],"xi":["西息吸","席习袭","喜玺洗","细系隙"],"xia":["瞎虾鰕","辖峡侠","閜","下夏吓"],"xian":["先仙酰","弦闲嫌","显险藓","现县线"],"xiang":["乡香相","详祥翔","想响享","向像象"],"xiao":["消销萧","淆崤洨","小晓筱","笑效孝"],"xie":["些歇蝎","协携胁","写冩藛","谢械卸"],"xin":["新心锌","鐔","伈","信衅囟"],"xing":["星兴腥","形型行","醒擤","性杏姓"],"xiong":["胸凶匈","雄熊","","敻夐焸"],"xiu":["修羞馐","","朽潃綇","绣秀袖"],"xu":["须虚需","徐","许诩醑","续序叙"],"xuan":["宣轩萱","悬璇漩","选癣烜","炫渲绚"],"xue":["薛靴削","学穴泶","雪鳕","血谑坹"],"xun":["勋薰醺","询循寻","","讯训迅"],"ya":["鸭丫压","崖芽涯","雅痖哑","亚讶氩"],"yan":["嫣阉烟","严盐岩","眼演偃","验堰宴"],"yang":["鸯央秧","杨阳羊","养氧仰","样漾恙"],"yao":["腰邀吆","摇窑遥","舀咬杳","要药耀"],"ye":["椰掖噎","爷耶揶","也冶野","业夜页"],"yi":["一","宜仪夷","以已蚁","义议易"],"yin":["因音阴","银寅夤","引隐瘾","胤印茚"],"ying":["应英鹰","营赢瀛","影颖颍","硬映媵"],"yong":["拥鳙雍","喁颙顒","永勇咏","用砽"],"you":["幽悠攸","由尤游","有友酉","又右佑"],"yu":["淤瘀迂","鱼于瑜","与宇语","玉欲域"],"yuan":["冤渊鸳","元原源","远遠","院愿垸"],"yue":["曰约彟","","噦","月跃岳"],"yun":["晕氲氳","云郧纭","陨狁殒","运韵孕"],"za":["匝咂拶","砸杂磼","咋",""],"zai":["灾哉栽","","宰崽仔","在再载"],"zan":["糌簪兂","咱","趱昝攒","赞暂瓒"],"zang":["赃臧賍","","驵駔","葬脏奘"],"zao":["遭糟蹧","凿鑿","早藻枣","灶造躁"],"ze":["","则责泽","","仄昃崱"],"zei":["","贼戝鱡","",""],"zen":["","","怎","谮"],"zeng":["增憎罾","","","赠甑锃"],"zha":["渣扎哳","闸铡札","眨砟鲝","诈榨炸"],"zhai":["斋摘夈","宅","窄鉙","债寨砦"],"zhan":["瞻毡旃","","展斩盏","战占站"],"zhang":["张璋章","","长掌涨","仗帐丈"],"zhao":["招钊昭","","找沼爪","照诏赵"],"zhe":["遮蜇嗻","哲折辙","者锗赭","这浙蔗"],"zhei":["","","","这"],"zhen":["真针珍","","诊缜畛","镇阵朕"],"zheng":["争征睁","","整拯抍","证正政"],"zhi":["之织知","直职值","只止纸","制置质"],"zhong":["中终钟","","种肿冢","重众仲"],"zhou":["州周洲","轴妯","肘帚箒","皱绉骤"],"zhu":["诸珠猪","竹逐烛","主煮嘱","住驻铸"],"zhua":["抓髽簻","","",""],"zhuai":["拽","","跩",""],"zhuan":["专砖颛","","转孨轉","馔篆赚"],"zhuang":["装桩妆","","","状撞壮"],"zhui":["锥追骓","","","坠缀赘"],"zhun":["谆肫窀","","准凖準",""],"zhuo":["捉桌拙","灼浊酌","",""],"zi":["资缁咨","","紫姊梓","自字渍"],"zong":["宗踪棕","","总偬惣","纵粽錝"],"zou":["邹诹驺","","走","奏揍楱"],"zu":["租蒩","族足镞","组祖阻",""],"zuan":["钻躜鑽","","纂缵纘","攥"],"zui":["厜蟕朘","","嘴嶊噿","最罪醉"],"zun":["尊遵樽","","撙",""],"zuo":["","昨琢筰","左佐繓","做坐座"]}};
+/* ===== Cấu hình ===== */
+// Nguồn file ghi âm: tiengtrungonline.com (chinese.edu.vn) — thư mục theo nhóm thanh mẫu,
+// tên file = <âm tiết><thanh>.mp3, ü viết là v (vd: DTNL/lv4.mp3)
+const AUDIO_BASE = 'https://tiengtrungonline.com/wp-content/themes/chinese/audio/pinyinchart/';
+const AUDIO_DIR = {'':'row1',b:'BPMF',p:'BPMF',m:'BPMF',f:'BPMF',d:'DTNL',t:'DTNL',n:'DTNL',l:'DTNL',g:'GKH',k:'GKH',h:'GKH',
+  z:'ZCS',c:'ZCS',s:'ZCS',zh:'ZHCHSH',ch:'ZHCHSH',sh:'ZHCHSH',r:'ZHCHSH',j:'JQX',q:'JQX',x:'JQX'};
+const NO_REC = new Set(['zhuo3']);   // nguồn không có file này
+function initialOf(sp){ const m = sp.match(/^(zh|ch|sh|[bpmfdtnlgkhzcsrjqx])/); return m ? m[1] : ''; }
+const GROUPS = [['Vận mẫu nhóm a · o · e',15],['Nhóm i',10],['Nhóm u',9],['Nhóm ü',4]];
+const GCUT = new Set([15,25,34]);            // cột bắt đầu nhóm mới
+const ROWGRP = {b:1,d:1,g:1,z:1,zh:1,j:1};   // hàng bắt đầu nhóm thanh mẫu mới
+const ROWNOTE = {'':'∅',b:'môi',d:'đầu lưỡi',g:'cuống lưỡi',z:'đầu lưỡi trước',zh:'uốn lưỡi',j:'mặt lưỡi'};
+// Âm hô đọc (呼读音) của thanh mẫu: [âm tiết, thanh, chữ mẫu]
+const INIT_READ = {b:['bo',1,'玻'],p:['po',1,'坡'],m:['mo',1,'摸'],f:['fo',2,'佛'],d:['de',2,'得'],t:['te',4,'特'],n:['ne',4,'讷'],l:['le',4,'勒'],
+  g:['ge',1,'哥'],k:['ke',1,'科'],h:['he',1,'喝'],z:['zi',1,'资'],c:['ci',2,'雌'],s:['si',1,'思'],
+  zh:['zhi',1,'知'],ch:['chi',1,'吃'],sh:['shi',1,'诗'],r:['ri',4,'日'],j:['ji',1,'基'],q:['qi',1,'欺'],x:['xi',1,'希']};
+const TONE_NAME = ['Thanh 1','Thanh 2','Thanh 3','Thanh 4'];
+
+/* ===== Đặt dấu thanh ===== */
+const MARKS = {a:'āáǎà',e:'ēéěè',i:'īíǐì',o:'ōóǒò',u:'ūúǔù','ü':'ǖǘǚǜ'};
+function mark(s,t){
+  let i;
+  if (s.includes('a')) i = s.indexOf('a');
+  else if (s.includes('e')) i = s.indexOf('e');
+  else if (s.includes('ou')) i = s.indexOf('o');
+  else { for (let k=s.length-1;k>=0;k--) if (MARKS[s[k]]) { i=k; break; } }
+  if (i===undefined) return s;
+  return s.slice(0,i) + MARKS[s[i]][t-1] + s.slice(i+1);
+}
+
+/* ===== Dựng bảng ===== */
+const tb = document.getElementById('pyc-tb');
+const cellMap = {};   // âm tiết -> ô td
+(function build(){
+  let h = '<thead><tr class="g"><th class="corner" rowspan="1"></th>';
+  let c = 0;
+  GROUPS.forEach(([name,n]) => { h += `<th colspan="${n}" class="${c?'gcut':''}">${name}</th>`; c += n; });
+  h += '</tr><tr class="f"><th class="corner" title="Thanh mẫu \\ Vận mẫu">声 \\ 韵</th>';
+  DATA.cols.forEach((f,j) => {
+    const lab = f==='-i'?'-i':(f==='-i₂'?'-i':f);
+    const tip = f==='-i'?'-i sau z c s':(f==='-i₂'?'-i sau zh ch sh r':'Vận mẫu '+f);
+    h += `<th data-c="${j}" class="${GCUT.has(j)?'gcut':''}" title="${tip}" tabindex="0">${lab}</th>`;
+  });
+  h += '</tr></thead><tbody>';
+  DATA.rows.forEach(ini => {
+    h += `<tr class="${ROWGRP[ini]?'gs':''}" data-r="${ini}"><th data-i="${ini}" tabindex="0" title="${ini?'Nghe thanh mẫu '+ini:'Âm tiết không có thanh mẫu'}">${ini||'∅'}${ini && ROWNOTE[ini]?'<small>'+ROWNOTE[ini]+'</small>':''}${!ini?'<small>không TM</small>':''}</th>`;
+    DATA.grid[ini].forEach((sp,j) => {
+      const band = j>=34?'bv':(j>=15&&j<25?'bi':'');
+      const cls = [band, GCUT.has(j)?'gcut':''].join(' ');
+      h += sp ? `<td class="s ${cls}" data-sp="${sp}" data-c="${j}" tabindex="0">${sp}</td>` : `<td class="e ${cls}" data-c="${j}"></td>`;
+    });
+    h += '</tr>';
+  });
+  tb.innerHTML = h + '</tbody>';
+  tb.querySelectorAll('td.s').forEach(td => cellMap[td.dataset.sp] = td);
+})();
+
+/* ===== Âm thanh ===== */
+const useRec = true;          // luôn ưu tiên ghi âm người thật; không tải được thì tự chuyển giọng máy
+const TTS_RATE = 0.7;         // tốc độ giọng máy, chỉnh cho gần tốc độ file ghi âm
+const CLIP_MS = 1500;         // độ dài trung bình 1 file ghi âm (dùng để giãn nhịp khi đọc liên tiếp)
+let zhVoice = null, curAudio = null;
+function pickVoice(){
+  const vs = speechSynthesis.getVoices();
+  zhVoice = vs.find(v=>/zh[-_]CN/i.test(v.lang)) || vs.find(v=>/^zh/i.test(v.lang)) || null;
+}
+if ('speechSynthesis' in window){ pickVoice(); speechSynthesis.addEventListener('voiceschanged', pickVoice); }
+else showNotice('Trình duyệt này không hỗ trợ đọc giọng máy. Hãy mở bằng Chrome, Safari hoặc Edge bản mới.');
+
+function tts(ch){
+  return new Promise(res => {
+    if (!('speechSynthesis' in window) || !ch) return res();
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(ch);
+    u.lang = 'zh-CN'; u.rate = TTS_RATE; if (zhVoice) u.voice = zhVoice;
+    u.onend = u.onerror = () => res();
+    speechSynthesis.speak(u);
+    setTimeout(res, 2500);
+    if (!zhVoice && speechSynthesis.getVoices().length) showNotice('Máy chưa có giọng đọc tiếng Trung. Hãy cài thêm giọng "Chinese (China)" trong cài đặt ngôn ngữ của máy để nghe chuẩn hơn.');
+  });
+}
+function playRec(sp,t){
+  return new Promise((res,rej) => {
+    if (curAudio) { curAudio.pause(); }
+    const a = new Audio(AUDIO_BASE + AUDIO_DIR[initialOf(sp)] + '/' + sp.replace('ü','v') + t + '.mp3');
+    curAudio = a; let ok = false;
+    const timer = setTimeout(()=>{ if(!ok){ a.pause(); rej(); } }, 3000);
+    a.onplaying = () => { ok = true; clearTimeout(timer); };
+    a.onended = () => res();
+    a.onerror = () => { clearTimeout(timer); rej(); };
+    a.play().catch(()=>{ clearTimeout(timer); rej(); });
+  });
+}
+async function say(sp,t,ch){
+  if (useRec){ try { await playRec(sp,t); return; } catch(e){ /* rơi về giọng máy */ } }
+  const t0 = performance.now();
+  await tts(ch);
+  // giãn nhịp để giọng máy có nhịp giống file ghi âm
+  const rest = CLIP_MS - (performance.now() - t0);
+  if (rest > 0) await new Promise(r => setTimeout(r, rest));
+}
+function showNotice(msg){ const n=document.getElementById('pyc-notice'); n.textContent=msg; n.hidden=false; }
+
+/* ===== Popover chọn thanh ===== */
+const pop = document.getElementById('pyc-pop');
+let active = null;
+function openPop(td){
+  const sp = td.dataset.sp, chars = DATA.chars[sp] || ['','','',''];
+  if (active) active.classList.remove('active');
+  active = td; td.classList.add('active');
+  let h = `<div class="ph"><div><b>${sp}</b> <span>${td.closest('tr').dataset.r||'∅'} + ${DATA.cols[td.dataset.c].replace('₂','')}</span></div><button class="x" aria-label="Đóng">×</button></div><div class="tones">`;
+  for (let t=1;t<=4;t++){
+    const hz = chars[t-1] || '';
+    const first = [...hz][0] || '';
+    h += `<button class="tbtn" data-t="${t}" data-ch="${first}" ${first||(useRec&&!NO_REC.has(sp+t))?'':'disabled'} title="${hz?TONE_NAME[t-1]+' · chữ mẫu: '+[...hz].join(' '):'Không có chữ thông dụng cho thanh này'}">
+      <span class="py tone${t}">${mark(sp,t)}</span><span class="hz">${first}</span><span class="tn">${TONE_NAME[t-1]}</span></button>`;
+  }
+  h += '</div><button class="all">▶ Nghe cả 4 thanh</button>';
+  pop.innerHTML = h; pop.hidden = false;
+  if (window.innerWidth > 640){
+    const r = td.getBoundingClientRect();
+    let left = r.right + window.scrollX + 6, top = r.top + window.scrollY - 10;
+    if (left + 240 > window.scrollX + document.documentElement.clientWidth) left = r.left + window.scrollX - 242;
+    // không để bảng thanh tràn khỏi mép dưới màn hình
+    const maxTop = window.scrollY + window.innerHeight - pop.offsetHeight - 10;
+    top = Math.max(window.scrollY + 10, Math.min(top, maxTop));
+    pop.style.left = Math.max(8,left) + 'px'; pop.style.top = top + 'px';
+  }
+  pop.querySelector('.tbtn:not(:disabled)')?.focus({preventScroll:true});
+}
+function closePop(){ pop.hidden = true; if (active){ active.classList.remove('active'); active.focus({preventScroll:true}); active=null; } }
+
+pop.addEventListener('click', async e => {
+  if (e.target.closest('.x')) return closePop();
+  const b = e.target.closest('.tbtn');
+  if (b && !b.disabled){ flash(b); say(active.dataset.sp, +b.dataset.t, b.dataset.ch); }
+  if (e.target.closest('.all')){
+    for (const btn of pop.querySelectorAll('.tbtn:not(:disabled)')){
+      if (pop.hidden) break;
+      flash(btn); await say(active.dataset.sp, +btn.dataset.t, btn.dataset.ch);
+      await new Promise(r=>setTimeout(r,250));
+    }
+  }
+});
+function flash(b){ pop.querySelectorAll('.tbtn').forEach(x=>x.classList.remove('playing')); b.classList.add('playing'); setTimeout(()=>b.classList.remove('playing'),900); }
+
+/* ===== Tương tác bảng ===== */
+function clearHL(){ tb.querySelectorAll('.hl').forEach(x=>x.classList.remove('hl')); }
+tb.addEventListener('click', e => {
+  const td = e.target.closest('td.s');
+  if (td){ td===active && !pop.hidden ? closePop() : openPop(td); return; }
+  const rh = e.target.closest('tbody th');
+  if (rh){ // thanh mẫu: tô sáng hàng + đọc âm hô
+    clearHL(); rh.closest('tr').querySelectorAll('td.s,th').forEach(x=>x.classList.add('hl'));
+    const r = INIT_READ[rh.dataset.i]; if (r) say(r[0], r[1], r[2]);
+    return;
+  }
+  const ch = e.target.closest('thead tr.f th[data-c]');
+  if (ch){ clearHL(); ch.classList.add('hl'); tb.querySelectorAll(`td.s[data-c="${ch.dataset.c}"]`).forEach(x=>x.classList.add('hl')); }
+});
+tb.addEventListener('keydown', e => {
+  if (e.key==='Enter' || e.key===' '){ const el = e.target.closest('td.s, th[tabindex]'); if (el){ e.preventDefault(); el.click(); } }
+});
+document.addEventListener('keydown', e => { if (e.key==='Escape' && !pop.hidden) closePop(); });
+document.addEventListener('click', e => {
+  if (!pop.hidden && !pop.contains(e.target) && !e.target.closest('td.s')) closePop();
+  if (!e.target.closest('#pyc-tb')) clearHL();
+});
+document.getElementById('pyc-sc').addEventListener('scroll', () => { if (!pop.hidden && window.innerWidth>640) closePop(); }, {passive:true});
+
+/* ===== Tìm kiếm ===== */
+const q = document.getElementById('pyc-q');
+function norm(s){
+  s = s.toLowerCase().trim().replace(/[1-5]/g,'').replace(/v/g,'ü').replace(/u:/g,'ü');
+  return s.normalize('NFD').replace(/[\u0300\u0301\u030c\u0304]/g,'').normalize('NFC');
+}
+q.addEventListener('input', () => {
+  tb.querySelectorAll('.found').forEach(x=>x.classList.remove('found'));
+  const s = norm(q.value); const td = cellMap[s];
+  if (td){ td.classList.add('found'); td.scrollIntoView({block:'center',inline:'center',behavior:'smooth'}); }
+});
+q.addEventListener('keydown', e => { if (e.key==='Enter'){ const td = cellMap[norm(q.value)]; if (td){ td.scrollIntoView({block:'center',inline:'center'}); setTimeout(()=>openPop(td),60); } } });
+
+/* ===== Nút tùy chọn ===== */
+const bHz = document.getElementById('pyc-bHz');
+bHz.onclick = () => { const on = bHz.getAttribute('aria-pressed')!=='true'; bHz.setAttribute('aria-pressed',on); pop.classList.toggle('hidehz',!on); try{localStorage.setItem('py_hz',on?'1':'0')}catch(e){} };
+try{
+  if (localStorage.getItem('py_hz')==='0') bHz.click();
+}catch(e){}
+})();
 </script>
 </body>
 </html>
