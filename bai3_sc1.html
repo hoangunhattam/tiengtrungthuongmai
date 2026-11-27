@@ -293,6 +293,11 @@
   .kw-txt .v{font-size:.85em; color:#5c6b60;}
   .kw-one{flex-shrink:0; border:none; background:var(--gold); color:#fff; border-radius:50%; width:32px; height:32px; cursor:pointer; font-size:.9em;}
   .kw-line.now .kw-one{background:var(--green);}
+  .kw-back{flex-shrink:0; border:2px solid var(--line); background:#fff; color:var(--green-dark); border-radius:50%; width:26px; height:26px; cursor:pointer; font-size:.7em; padding:0; line-height:1;}
+  .kw-back:hover, .kw-mini:hover{border-color:var(--green);}
+  .kw-mini{border:2px solid var(--line); background:#fff; color:var(--green-dark); border-radius:20px; padding:5px 9px; cursor:pointer; font-weight:700; font-size:.78em; font-family:inherit;}
+  .kw-playall.paused{background:var(--gold);}
+  .kw-line.paused{background:#fff9ea; box-shadow:inset 4px 0 0 var(--gold);}
   .kw-mask{display:none; color:#9aa79e; font-size:.95em; letter-spacing:2px; padding:6px 0;}
   .kw-eye{flex-shrink:0; display:none; border:2px solid var(--line); background:#fff; border-radius:50%; width:32px; height:32px; cursor:pointer; font-size:.9em;}
   .kw-hide-text .kw-line:not(.shown) .kw-txt > div{display:none;}
@@ -382,7 +387,7 @@
   <!-- KEWEN-START: ⑤ Bài khóa (课文) — audio gốc giáo trình -->
   <div class="card" id="kewen-card">
     <h2>⑤ Bài khóa <span class="zh">课文</span></h2>
-    <div class="sub">Hội thoại trong bài học kèm audio gốc của giáo trình. Mỗi đoạn có nút riêng: <b>🙈 Ẩn hội thoại</b> để nghe trước rồi mới xem chữ, bật/tắt <b>Phiên âm</b> và <b>Dịch</b>. Bấm <b>▶ Nghe cả đoạn</b> để nghe liền mạch, hoặc bấm vào <b>từng câu</b> để nghe lại câu đó.</div>
+    <div class="sub">Hội thoại trong bài học kèm audio gốc của giáo trình. Mỗi đoạn có nút riêng: <b>🙈 Ẩn hội thoại</b> để nghe trước rồi mới xem chữ, bật/tắt <b>Phiên âm</b> và <b>Dịch</b>. Bấm <b>▶ Nghe cả đoạn</b> để nghe liền mạch, hoặc bấm vào <b>từng câu</b> để nghe lại câu đó. Đang nghe, bấm lần nữa để <b>⏸ tạm dừng</b> / <b>▶ nghe tiếp</b>; nút <b>⏪</b> tua lại 3 giây.</div>
     <div class="kw-tools">
       <button class="kw-tog" id="kw-loop" title="Bấm vào 1 câu: câu đó sẽ phát lặp lại liên tục">🔁 Lặp câu</button>
       <span class="kw-label">Tốc độ</span>
@@ -1286,7 +1291,9 @@ function copyResult(){
             '<span class="kw-btns"><button class="kw-tog kw-t-hide" data-c="kw-hide-text">🙈 Ẩn hội thoại</button>' +
             '<button class="kw-tog on kw-t-py" data-c="kw-hide-py">Phiên âm</button>' +
             '<button class="kw-tog on kw-t-vi" data-c="kw-hide-vi">Dịch</button></span>' +
-            '<button class="kw-playall" data-ti="' + ti + '">▶ Nghe cả đoạn</button></div>' +
+            '<button class="kw-playall" data-ti="' + ti + '">▶ Nghe cả đoạn</button>' +
+            '<button class="kw-mini kw-rw" data-ti="' + ti + '" title="Tua lại 3 giây">⏪ 3s</button>' +
+            '<button class="kw-mini kw-stop" data-ti="' + ti + '" title="Dừng hẳn (lần sau nghe lại từ đầu)">⏹</button></div>' +
             '<div class="kw-bar"><i id="kw-bar-' + ti + '"></i></div>';
     if(t.guide) h += '<div class="kw-guide">🎯 ' + t.guide + '</div>';
     h += '<div class="kw-hint">🎧 <b>Nghe trước:</b> nghe cả đoạn hoặc từng câu, đoán nội dung và nói lại. Bấm 👁 ở từng câu để xem đáp án, hoặc bấm lại 🙈 để hiện cả đoạn.</div>';
@@ -1299,7 +1306,7 @@ function copyResult(){
         h += '<div class="kw-line" data-ti="' + ti + '" data-li="' + li + '">' +
              '<div class="kw-sp"><span class="p">' + it.spPy + '</span><span class="z">' + it.sp + '：</span></div>' +
              '<div class="kw-txt"><span class="kw-mask">● ● ● ● ●</span><div class="p">' + it.py + '</div><div class="z">' + it.zh + '</div><div class="v">' + it.vi + '</div></div>' +
-             '<button class="kw-eye" title="Xem câu này">👁</button><button class="kw-one" title="Nghe câu này">🔊</button></div>';
+             '<button class="kw-eye" title="Xem câu này">👁</button><button class="kw-back" title="Tua lại 3 giây">⏪</button><button class="kw-one" title="Nghe / tạm dừng câu này">🔊</button></div>';
         li++;
       }
     });
@@ -1315,7 +1322,9 @@ function copyResult(){
     cancelAnimationFrame(active.raf);
     active.audio.pause();
     document.querySelectorAll('.kw-line.now').forEach(function(e){ e.classList.remove('now'); });
-    document.querySelectorAll('.kw-playall').forEach(function(b){ b.classList.remove('playing'); b.textContent = '▶ Nghe cả đoạn'; });
+    document.querySelectorAll('.kw-playall').forEach(function(b){ b.classList.remove('playing', 'paused'); b.textContent = '▶ Nghe cả đoạn'; });
+    document.querySelectorAll('.kw-one').forEach(function(b){ b.textContent = '🔊'; });
+    document.querySelectorAll('.kw-line.paused').forEach(function(e){ e.classList.remove('paused'); });
     const bar = document.getElementById('kw-bar-' + active.ti); if(bar) bar.style.width = '0';
     clearTimeout(active.loopT);
     active = null;
@@ -1331,6 +1340,42 @@ function copyResult(){
     const el = document.querySelector('.kw-line[data-ti="' + ti + '"][data-li="' + li + '"]');
     if(el) el.classList.add('now');
   }
+  // ---- Tạm dừng / nghe tiếp / tua lại ----
+  function ui(){
+    document.querySelectorAll('.kw-one').forEach(function(b){ b.textContent = '🔊'; });
+    document.querySelectorAll('.kw-line.paused').forEach(function(e){ e.classList.remove('paused'); });
+    if(!active) return;
+    if(active.li === null){
+      const b = document.querySelector('.kw-playall[data-ti="' + active.ti + '"]');
+      b.classList.toggle('paused', !!active.paused); b.classList.toggle('playing', !active.paused);
+      b.textContent = active.paused ? '▶ Nghe tiếp' : '⏸ Tạm dừng';
+    } else {
+      const el = document.querySelector('.kw-line[data-ti="' + active.ti + '"][data-li="' + active.li + '"]');
+      if(el){ el.querySelector('.kw-one').textContent = active.paused ? '▶' : '⏸'; el.classList.toggle('paused', !!active.paused); }
+    }
+  }
+  function pause(){
+    if(!active || active.paused) return;
+    cancelAnimationFrame(active.raf); clearTimeout(active.loopT);
+    active.audio.pause(); active.paused = true; ui();
+  }
+  function resume(){
+    if(!active || !active.paused) return;
+    active.paused = false;
+    active.audio.playbackRate = rate;
+    const p = active.audio.play(); if(p && p.catch) p.catch(function(){});
+    ui(); tick();
+  }
+  function rewind(sec){              // lùi lại sec giây (không lùi quá đầu câu đang nghe)
+    if(!active) return;
+    const a = active.audio, t = KEWEN[active.ti];
+    const min = active.li === null ? 0 : t.lines[active.li].t[0];
+    try{ a.currentTime = Math.max(min, a.currentTime - sec); }catch(e){}
+    if(active.li === null){
+      const dur = a.duration || 1;
+      document.getElementById('kw-bar-' + active.ti).style.width = Math.min(100, a.currentTime / dur * 100) + '%';
+    }
+  }
   function play(ti, li){             // li = null → cả đoạn; li = số → 1 câu
     stopAll();
     if(window.rtStop) window.rtStop();
@@ -1341,10 +1386,8 @@ function copyResult(){
     a.playbackRate = rate;
     try{ a.currentTime = start; }catch(e){}
     const p = a.play(); if(p && p.catch) p.catch(function(){});
-    if(li === null){
-      const b = document.querySelector('.kw-playall[data-ti="' + ti + '"]');
-      b.classList.add('playing'); b.textContent = '⏸ Dừng';
-    } else mark(ti, li);
+    if(li !== null) mark(ti, li);
+    ui();
     tick();
   }
   function tick(){
@@ -1375,7 +1418,18 @@ function copyResult(){
     const all = e.target.closest('.kw-playall');
     if(all){
       const ti = +all.dataset.ti;
-      if(active && active.ti === ti && active.li === null) stopAll(); else play(ti, null);
+      if(active && active.ti === ti && active.li === null){ if(active.paused) resume(); else pause(); }
+      else play(ti, null);
+      return;
+    }
+    const rw = e.target.closest('.kw-rw');
+    if(rw){ if(active && active.ti === +rw.dataset.ti) rewind(3); return; }
+    const st = e.target.closest('.kw-stop');
+    if(st){ if(active && active.ti === +st.dataset.ti) stopAll(); return; }
+    const bk = e.target.closest('.kw-back');
+    if(bk){
+      const ln = bk.closest('.kw-line'), ti = +ln.dataset.ti, li = +ln.dataset.li;
+      if(active && active.ti === ti && active.li === li) rewind(3); else play(ti, li);
       return;
     }
     const tb = e.target.closest('.kw-btns .kw-tog');
@@ -1392,7 +1446,8 @@ function copyResult(){
     const line = e.target.closest('.kw-line');
     if(line){
       const ti = +line.dataset.ti, li = +line.dataset.li;
-      if(active && active.ti === ti && active.li === li) stopAll(); else play(ti, li);
+      if(active && active.ti === ti && active.li === li){ if(active.paused) resume(); else pause(); }
+      else play(ti, li);
     }
   });
   function tog(id, cls, invert){
